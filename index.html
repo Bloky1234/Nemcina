@@ -3,41 +3,55 @@
 <html lang="sk">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- mobilná kompatibilita -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Učenie slovíčok</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
-    #loader { margin: 20px; }
-    .options { display: flex; flex-direction: column; max-width: 250px; margin: 20px auto; }
-    button { margin: 5px; padding: 12px; border-radius: 8px; border: 1px solid #ccc; cursor: pointer; font-size: 16px; }
-    button:hover { background: #f0f0f0; }
-    .correct { background: #b6fbb6 !important; }
-    .wrong { background: #ffb6b6 !important; }
-    .radio-group { margin: 15px 0; font-size: 16px; }
-    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-    .home-btn { padding: 8px 12px; border: none; background: #007BFF; color: white; border-radius: 6px; cursor: pointer; font-size: 14px; }
-    .home-btn:hover { background: #0056b3; }
+    .btn-option {
+      margin: 6px 0;
+      font-size: 1.1rem;
+    }
+    .correct { background-color: #b6fbb6 !important; }
+    .wrong { background-color: #ffb6b6 !important; }
   </style>
 </head>
-<body>
-  <h1>Učenie slovíčok</h1>
-
-  <div id="loader">
-    <div class="radio-group">
-      <label><input type="radio" name="smer" value="en-sk" checked> Angličtina → Slovenčina</label><br>
-      <label><input type="radio" name="smer" value="sk-en"> Slovenčina → Angličtina</label><br>
-      <label><input type="radio" name="smer" value="mix"> Mix (oboma smermi)</label>
+<body class="bg-light d-flex justify-content-center align-items-center vh-100">
+  <div class="container text-center">
+    <div id="loader" class="card shadow p-4 mx-auto" style="max-width: 500px;">
+      <h1 class="mb-4">Učenie slovíčok</h1>
+      <div class="mb-3 text-start">
+        <label class="form-check">
+          <input type="radio" name="smer" value="en-sk" class="form-check-input" checked>
+          <span class="form-check-label">Angličtina → Slovenčina</span>
+        </label>
+        <label class="form-check">
+          <input type="radio" name="smer" value="sk-en" class="form-check-input">
+          <span class="form-check-label">Slovenčina → Angličtina</span>
+        </label>
+        <label class="form-check">
+          <input type="radio" name="smer" value="mix" class="form-check-input">
+          <span class="form-check-label">Mix (oboma smermi)</span>
+        </label>
+      </div>
+      <button class="btn btn-primary w-100" onclick="startQuiz()">Spusti test</button>
     </div>
-    <button class="home-btn" onclick="startQuiz()">Spusti test</button>
+
+```
+<div id="quiz" class="card shadow p-4 mx-auto d-none" style="max-width: 500px;">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 id="question" class="fs-4 m-0"></h2>
+    <button class="btn btn-sm btn-secondary" onclick="goHome()">Domov</button>
+  </div>
+  <div id="options" class="d-flex flex-column"></div>
+</div>
+```
+
   </div>
 
-  <div id="quiz" style="display:none;">
-    <div class="top-bar">
-      <h2 id="question"></h2>
-      <button class="home-btn" onclick="goHome()">Domov</button>
-    </div>
-    <div class="options" id="options"></div>
-  </div>
+  <!-- Bootstrap JS -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
     let slovicka = [];
@@ -62,18 +76,18 @@
       spravne = 0;
       nespravne = 0;
 
-      document.getElementById("loader").style.display = "none";
-      document.getElementById("quiz").style.display = "block";
+      document.getElementById("loader").classList.add("d-none");
+      document.getElementById("quiz").classList.remove("d-none");
       novaOtazka();
     }
 
     function novaOtazka() {
       if (nezodpovedane.length === 0) {
         document.getElementById("quiz").innerHTML = `
-          <h2>Hotovo! 🎉</h2>
-          <p>Správne odpovede: ${spravne}</p>
-          <p>Nesprávne odpovede: ${nespravne}</p>
-          <button class="home-btn" onclick="goHome()">Domov</button>
+          <h2 class="mb-3">Hotovo! 🎉</h2>
+          <p class="fs-5">Správne odpovede: <b>${spravne}</b></p>
+          <p class="fs-5">Nesprávne odpovede: <b>${nespravne}</b></p>
+          <button class="btn btn-primary mt-3" onclick="goHome()">Domov</button>
         `;
         return;
       }
@@ -82,7 +96,6 @@
       let realSmer = smer === "mix" ? (Math.random() < 0.5 ? "en-sk" : "sk-en") : smer;
 
       let questionText, correctAnswer, allAnswers;
-
       if (realSmer === "en-sk") {
         questionText = `Prelož: ${otazka.en}`;
         correctAnswer = otazka.sk;
@@ -107,6 +120,7 @@
       moznosti.forEach(moz => {
         const btn = document.createElement("button");
         btn.textContent = moz;
+        btn.className = "btn btn-outline-dark btn-option";
         btn.onclick = () => {
           if (moz === correctAnswer) {
             btn.classList.add("correct");
@@ -123,8 +137,8 @@
     }
 
     function goHome() {
-      document.getElementById("quiz").style.display = "none";
-      document.getElementById("loader").style.display = "block";
+      document.getElementById("quiz").classList.add("d-none");
+      document.getElementById("loader").classList.remove("d-none");
       slovicka = [];
       nezodpovedane = [];
       spravne = 0;

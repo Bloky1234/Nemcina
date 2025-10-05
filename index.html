@@ -74,23 +74,23 @@
       radio.addEventListener("change", e => smer = e.target.value);
     });
 
-    async function startQuiz() {
-      const response = await fetch("slovicka.txt");
-      const text = await response.text();
-      slovicka = text.split("\n").map(r => {
-        const [en, sk] = r.trim().split("//");
-        return { en, sk };
-      }).filter(x => x.en && x.sk);
+async function startQuiz() {
+  const response = await fetch("slovicka.txt");
+  const text = await response.text();
+  slovicka = text.split("\n").map(r => {
+    const [en, sk] = r.trim().split("//").map(s => s.trim());
+    return { en, sk };
+  }).filter(x => x.en && x.sk);
 
-      nezodpovedane = [...slovicka];
-      spravne = 0;
-      nespravne = 0;
+  nezodpovedane = [...slovicka];
+  spravne = 0;
+  nespravne = 0;
 
-      document.getElementById("loader").classList.add("d-none");
-      document.getElementById("quiz").classList.remove("d-none");
-      novaOtazka();
-      window.scrollTo(0, 0); // aby sa na mobile začalo odhora
-    }
+  document.getElementById("loader").classList.add("d-none");
+  document.getElementById("quiz").classList.remove("d-none");
+  novaOtazka();
+  window.scrollTo(0, 0); // aby sa na mobile začalo odhora
+}
 
     function novaOtazka() {
       if (nezodpovedane.length === 0) {

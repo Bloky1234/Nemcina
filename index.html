@@ -78,7 +78,7 @@
       const response = await fetch("slovicka.txt");
       const text = await response.text();
       slovicka = text.split("\n").map(r => {
-        const [en, sk] = r.trim().split("-");
+        const [en, sk] = r.trim().split("//");
         return { en, sk };
       }).filter(x => x.en && x.sk);
 

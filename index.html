@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="sk">
 <head>
   <meta charset="UTF-8">
@@ -25,58 +24,66 @@
   </style>
 </head>
 <body>
-  <div class="container-fluid">
-    <div class="main-container">
-      <div id="loader" class="card shadow p-4 mb-4">
-        <h1 class="mb-4 text-center">Učenie slovíčok</h1>
-        <div class="mb-3">
-          <label class="form-check">
-            <input type="radio" name="smer" value="en-sk" class="form-check-input" checked>
-            <span class="form-check-label">Angličtina → Slovenčina</span>
-          </label>
-          <label class="form-check">
-            <input type="radio" name="smer" value="sk-en" class="form-check-input">
-            <span class="form-check-label">Slovenčina → Angličtina</span>
-          </label>
-          <label class="form-check">
-            <input type="radio" name="smer" value="mix" class="form-check-input">
-            <span class="form-check-label">Mix (oboma smermi)</span>
-          </label>
-        </div>
-        <button class="btn btn-primary w-100" onclick="startQuiz()">Spusti test</button>
+<div class="container-fluid">
+  <div class="main-container">
+    <div id="loader" class="card shadow p-4 mb-4">
+      <h1 class="mb-4 text-center">Učenie slovíčok</h1>
+
+      <!-- Výber lekcie -->
+      <div class="mb-3">
+        <label for="lektionSelect" class="form-label">Vyber lekciu:</label>
+        <select class="form-select" id="lektionSelect">
+          <option value="lection1.txt" selected>Lekcia 1</option>
+          <option value="lection2.txt">Lekcia 2</option>
+          <option value="lection3.txt">Lekcia 3</option>
+        </select>
       </div>
 
+      <div class="mb-3">
+        <label class="form-check">
+          <input type="radio" name="smer" value="en-sk" class="form-check-input" checked>
+          <span class="form-check-label">Angličtina → Slovenčina</span>
+        </label>
+        <label class="form-check">
+          <input type="radio" name="smer" value="sk-en" class="form-check-input">
+          <span class="form-check-label">Slovenčina → Angličtina</span>
+        </label>
+        <label class="form-check">
+          <input type="radio" name="smer" value="mix" class="form-check-input">
+          <span class="form-check-label">Mix (oboma smermi)</span>
+        </label>
+      </div>
 
-  <div id="quiz" class="card shadow p-4 d-none">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2 id="question" class="fs-4 m-0"></h2>
-      <button class="btn btn-sm btn-secondary" onclick="goHome()">Domov</button>
+      <button class="btn btn-primary w-100" onclick="startQuiz()">Spusti test</button>
     </div>
-    <div id="options" class="d-flex flex-column"></div>
+
+    <div id="quiz" class="card shadow p-4 d-none">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 id="question" class="fs-4 m-0"></h2>
+        <button class="btn btn-sm btn-secondary" onclick="goHome()">Domov</button>
+      </div>
+      <div id="options" class="d-flex flex-column"></div>
+    </div>
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let slovicka = [];
+let nezodpovedane = [];
+let smer = "en-sk";
+let spravne = 0;
+let nespravne = 0;
 
-  </div>
-
-  <!-- Bootstrap JS -->
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-  <script>
-    let slovicka = [];
-    let nezodpovedane = [];
-    let smer = "en-sk";
-    let spravne = 0;
-    let nespravne = 0;
-
-    document.querySelectorAll('input[name="smer"]').forEach(radio => {
-      radio.addEventListener("change", e => smer = e.target.value);
-    });
+document.querySelectorAll('input[name="smer"]').forEach(radio => {
+  radio.addEventListener("change", e => smer = e.target.value);
+});
 
 async function startQuiz() {
-  const response = await fetch("slovicka.txt");
+  const lekcia = document.getElementById("lektionSelect").value;
+  const response = await fetch(lekcia);
   const text = await response.text();
+
   slovicka = text.split("\n").map(r => {
     const [en, sk] = r.trim().split("//").map(s => s.trim());
     return { en, sk };
@@ -89,78 +96,77 @@ async function startQuiz() {
   document.getElementById("loader").classList.add("d-none");
   document.getElementById("quiz").classList.remove("d-none");
   novaOtazka();
-  window.scrollTo(0, 0); // aby sa na mobile začalo odhora
+  window.scrollTo(0, 0);
 }
 
-    function novaOtazka() {
-      if (nezodpovedane.length === 0) {
-        document.getElementById("quiz").innerHTML = `
-          <h2 class="mb-3 text-center">Hotovo! 🎉</h2>
-          <p class="fs-5 text-center">Správne odpovede: <b>${spravne}</b></p>
-          <p class="fs-5 text-center">Nesprávne odpovede: <b>${nespravne}</b></p>
-          <button class="btn btn-primary w-100 mt-3" onclick="goHome()">Domov</button>
-        `;
-        window.scrollTo(0, 0);
-        return;
-      }
+function novaOtazka() {
+  if (nezodpovedane.length === 0) {
+    document.getElementById("quiz").innerHTML = `
+      <h2 class="mb-3 text-center">Hotovo! 🎉</h2>
+      <p class="fs-5 text-center">Správne odpovede: <b>${spravne}</b></p>
+      <p class="fs-5 text-center">Nesprávne odpovede: <b>${nespravne}</b></p>
+      <button class="btn btn-primary w-100 mt-3" onclick="goHome()">Domov</button>
+    `;
+    window.scrollTo(0, 0);
+    return;
+  }
 
-      const otazka = nezodpovedane[Math.floor(Math.random() * nezodpovedane.length)];
-      let realSmer = smer === "mix" ? (Math.random() < 0.5 ? "en-sk" : "sk-en") : smer;
+  const otazka = nezodpovedane[Math.floor(Math.random() * nezodpovedane.length)];
+  let realSmer = smer === "mix" ? (Math.random() < 0.5 ? "en-sk" : "sk-en") : smer;
 
-      let questionText, correctAnswer, allAnswers;
-      if (realSmer === "en-sk") {
-        questionText = `Prelož: ${otazka.en}`;
-        correctAnswer = otazka.sk;
-        allAnswers = slovicka.map(s => s.sk);
+  let questionText, correctAnswer, allAnswers;
+  if (realSmer === "en-sk") {
+    questionText = `Prelož: ${otazka.en}`;
+    correctAnswer = otazka.sk;
+    allAnswers = slovicka.map(s => s.sk);
+  } else {
+    questionText = `Prelož: ${otazka.sk}`;
+    correctAnswer = otazka.en;
+    allAnswers = slovicka.map(s => s.en);
+  }
+
+  document.getElementById("question").innerText = questionText;
+
+  let moznosti = [correctAnswer];
+  while (moznosti.length < 4 && allAnswers.length >= 4) {
+    const nahodne = allAnswers[Math.floor(Math.random() * allAnswers.length)];
+    if (!moznosti.includes(nahodne)) moznosti.push(nahodne);
+  }
+  moznosti = moznosti.sort(() => Math.random() - 0.5);
+
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+  moznosti.forEach(moz => {
+    const btn = document.createElement("button");
+    btn.textContent = moz;
+    btn.className = "btn btn-outline-dark btn-option";
+    btn.onclick = () => {
+      if (moz === correctAnswer) {
+        btn.classList.add("correct");
+        spravne++;
+        nezodpovedane = nezodpovedane.filter(s => s !== otazka);
+        setTimeout(() => { novaOtazka(); window.scrollTo(0, 0); }, 700);
       } else {
-        questionText = `Prelož: ${otazka.sk}`;
-        correctAnswer = otazka.en;
-        allAnswers = slovicka.map(s => s.en);
+        btn.classList.add("wrong");
+        nespravne++;
       }
+    };
+    optionsDiv.appendChild(btn);
+  });
+  window.scrollTo(0, 0);
+}
 
-      document.getElementById("question").innerText = questionText;
-
-      let moznosti = [correctAnswer];
-      while (moznosti.length < 4 && allAnswers.length >= 4) {
-        const nahodne = allAnswers[Math.floor(Math.random() * allAnswers.length)];
-        if (!moznosti.includes(nahodne)) moznosti.push(nahodne);
-      }
-      moznosti = moznosti.sort(() => Math.random() - 0.5);
-
-      const optionsDiv = document.getElementById("options");
-      optionsDiv.innerHTML = "";
-      moznosti.forEach(moz => {
-        const btn = document.createElement("button");
-        btn.textContent = moz;
-        btn.className = "btn btn-outline-dark btn-option";
-        btn.onclick = () => {
-          if (moz === correctAnswer) {
-            btn.classList.add("correct");
-            spravne++;
-            nezodpovedane = nezodpovedane.filter(s => s !== otazka);
-            setTimeout(() => { novaOtazka(); window.scrollTo(0, 0); }, 700);
-          } else {
-            btn.classList.add("wrong");
-            nespravne++;
-          }
-        };
-        optionsDiv.appendChild(btn);
-      });
-      window.scrollTo(0, 0);
-    }
-
-    function goHome() {
-      document.getElementById("quiz").classList.add("d-none");
-      document.getElementById("loader").classList.remove("d-none");
-      slovicka = [];
-      nezodpovedane = [];
-      spravne = 0;
-      nespravne = 0;
-      document.getElementById("options").innerHTML = "";
-      document.getElementById("question").innerText = "";
-      window.scrollTo(0, 0);
-    }
-  </script>
-
+function goHome() {
+  document.getElementById("quiz").classList.add("d-none");
+  document.getElementById("loader").classList.remove("d-none");
+  slovicka = [];
+  nezodpovedane = [];
+  spravne = 0;
+  nespravne = 0;
+  document.getElementById("options").innerHTML = "";
+  document.getElementById("question").innerText = "";
+  window.scrollTo(0, 0);
+}
+</script>
 </body>
 </html>

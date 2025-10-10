@@ -17,7 +17,8 @@ Wie alt seid ihr? // Koľko máte rokov?
 sein // byť
 ihr // vy (tykanie, množné číslo)
 Lebt ihr zusammen? // Žijete spolu?
-zusammen|leben // žiť spolu
+zusammen // spolu
+leben // žiť
 ja // áno
 wir // my
 aber // ale
@@ -44,7 +45,7 @@ als // tu: ako
 bei // u
 die Firma, Firmen // firma
 die Speditionsfirma, -firmen // špedičná firma
-…, oder? // …, či?
+oder // či
 der Job, -s // práca
 der Friseur, -e // kaderník
 die Friseurin, -nen // kaderníčka
@@ -101,3 +102,4 @@ die Schauspielerin, -nen // herečka
 der Sänger, - // spevák
 die Oper, -n // opera
 die Sängerin, -nen // speváčka
+Wie alt bist du ? // Kolko mas rokov ?

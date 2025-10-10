@@ -27,11 +27,11 @@
       <div class="mb-3">
         <label class="form-check">
           <input type="radio" name="smer" value="en-sk" class="form-check-input" checked>
-          <span class="form-check-label">Angličtina → Slovenčina</span>
+          <span class="form-check-label">Nemčina → Slovenčina</span>
         </label>
         <label class="form-check">
           <input type="radio" name="smer" value="sk-en" class="form-check-input">
-          <span class="form-check-label">Slovenčina → Angličtina</span>
+          <span class="form-check-label">Slovenčina → Nemčina</span>
         </label>
         <label class="form-check">
           <input type="radio" name="smer" value="mix" class="form-check-input">
@@ -69,18 +69,39 @@ document.querySelectorAll('input[name="smer"]').forEach(radio => {
 async function initLekcie() {
   const select = document.getElementById("lektionSelect");
   select.innerHTML = "";
-  for (let i=1; i<=20; i++) {
-    const fileName = `lection${i}.txt`;
+
+  for (let i = 1; i <= 20; i++) {
+    // najprv skús hlavný súbor (napr. lekcia1.txt)
+    const baseFile = `lekcia${i}.txt`;
+    let foundAny = false;
+
     try {
-      const resp = await fetch(fileName, { method: 'HEAD' });
+      const resp = await fetch(baseFile, { method: 'HEAD' });
       if (resp.ok) {
         const opt = document.createElement("option");
-        opt.value = fileName;
+        opt.value = baseFile;
         opt.textContent = `Lekcia ${i}`;
         select.appendChild(opt);
+        foundAny = true;
       }
-    } catch(e) { /* subor neexistuje */ }
+    } catch (e) { /* súbor neexistuje */ }
+
+    // teraz skús podlekcie typu lekcia1.1.txt, lekcia1.2.txt, ...
+    for (let j = 1; j <= 10; j++) {
+      const subFile = `lekcia${i}.${j}.txt`;
+      try {
+        const resp = await fetch(subFile, { method: 'HEAD' });
+        if (resp.ok) {
+          const opt = document.createElement("option");
+          opt.value = subFile;
+          opt.textContent = `Lekcia ${i}.${j}`;
+          select.appendChild(opt);
+          foundAny = true;
+        }
+      } catch (e) { /* súbor neexistuje */ }
+    }
   }
+
   if (select.options.length === 0) {
     const opt = document.createElement("option");
     opt.textContent = "Žiadna lekcia nenájdená";
@@ -88,6 +109,7 @@ async function initLekcie() {
     select.appendChild(opt);
   }
 }
+
 
 // start testu
 async function startQuiz() {

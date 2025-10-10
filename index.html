@@ -14,43 +14,67 @@
   </style>
 </head>
 <body>
-<div class="container-fluid">
-  <div class="main-container">
-    <div id="loader" class="card shadow p-4 mb-4">
-      <h1 class="mb-4 text-center">Učenie slovíčok</h1>
+  <!-- Tu sa vloží hlavička -->
+  <div id="header"></div>
 
-      <div class="mb-3">
-        <label for="lektionSelect" class="form-label">Vyber lekciu:</label>
-        <select class="form-select" id="lektionSelect"></select>
+  <div class="container-fluid">
+    <div class="main-container">
+      <div id="loader" class="card shadow p-4 mb-4">
+        <h1 class="mb-4 text-center">Učenie slovíčok</h1>
+
+        <div class="mb-3">
+          <label for="lektionSelect" class="form-label">Vyber lekciu:</label>
+          <select class="form-select" id="lektionSelect"></select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-check">
+            <input type="radio" name="smer" value="en-sk" class="form-check-input" checked>
+            <span class="form-check-label">Nemčina → Slovenčina</span>
+          </label>
+          <label class="form-check">
+            <input type="radio" name="smer" value="sk-en" class="form-check-input">
+            <span class="form-check-label">Slovenčina → Nemčina</span>
+          </label>
+          <label class="form-check">
+            <input type="radio" name="smer" value="mix" class="form-check-input">
+            <span class="form-check-label">Mix (oboma smermi)</span>
+          </label>
+        </div>
+
+        <button class="btn btn-primary w-100" onclick="startQuiz()">Spusti test</button>
       </div>
 
-      <div class="mb-3">
-        <label class="form-check">
-          <input type="radio" name="smer" value="en-sk" class="form-check-input" checked>
-          <span class="form-check-label">Nemčina → Slovenčina</span>
-        </label>
-        <label class="form-check">
-          <input type="radio" name="smer" value="sk-en" class="form-check-input">
-          <span class="form-check-label">Slovenčina → Nemčina</span>
-        </label>
-        <label class="form-check">
-          <input type="radio" name="smer" value="mix" class="form-check-input">
-          <span class="form-check-label">Mix (oboma smermi)</span>
-        </label>
+      <div id="quiz" class="card shadow p-4 d-none">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 id="question" class="fs-4 m-0"></h2>
+          <button class="btn btn-sm btn-secondary" onclick="goHome()">Domov</button>
+        </div>
+        <div id="options" class="d-flex flex-column"></div>
       </div>
-
-      <button class="btn btn-primary w-100" onclick="startQuiz()">Spusti test</button>
-    </div>
-
-    <div id="quiz" class="card shadow p-4 d-none">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 id="question" class="fs-4 m-0"></h2>
-        <button class="btn btn-sm btn-secondary" onclick="goHome()">Domov</button>
-      </div>
-      <div id="options" class="d-flex flex-column"></div>
     </div>
   </div>
-</div>
+
+<script>
+  // Načíta hlavičku z externého súboru
+  async function loadHeader() {
+    try {
+      const resp = await fetch("header.html");
+      if (resp.ok) {
+        const html = await resp.text();
+        document.getElementById("header").innerHTML = html;
+      } else {
+        document.getElementById("header").innerHTML = "<p class='text-danger text-center mt-3'>Nepodarilo sa načítať hlavičku.</p>";
+      }
+    } catch (e) {
+      document.getElementById("header").innerHTML = "<p class='text-danger text-center mt-3'>Chyba pri načítaní hlavičky.</p>";
+    }
+  }
+
+  loadHeader();
+</script>
+<script src="script.js"></script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -70,7 +94,7 @@ async function initLekcie() {
   const select = document.getElementById("lektionSelect");
   select.innerHTML = "";
 
-  for (let i = 1; i <= 20; i++) {
+  for (let i = 1; i <= 10; i++) {
     // najprv skús hlavný súbor (napr. lekcia1.txt)
     const baseFile = `lekcia${i}.txt`;
     let foundAny = false;
@@ -87,7 +111,7 @@ async function initLekcie() {
     } catch (e) { /* súbor neexistuje */ }
 
     // teraz skús podlekcie typu lekcia1.1.txt, lekcia1.2.txt, ...
-    for (let j = 1; j <= 10; j++) {
+    for (let j = 1; j <= 5; j++) {
       const subFile = `lekcia${i}.${j}.txt`;
       try {
         const resp = await fetch(subFile, { method: 'HEAD' });
@@ -202,6 +226,9 @@ function goHome() {
 
 // inicializacia dropdownu
 initLekcie();
+
+
 </script>
+<script src="script.js"></script>
 </body>
 </html>

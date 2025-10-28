@@ -1,0 +1,54 @@
+die Familie -n // rodina
+die Mutter .. // matka
+der Vater .. // otec
+die Schwester -n // sestra
+Ich glaube // Myslím, že ...
+glauben	// myslieť,domnievať sa
+der Onkel // strýko
+die Oma -s // babička
+dein // tvoj/tvoje
+das Enkelkind, -er // vnúča
+die Eltern (Pl.) // rodičia
+der Sohn ..e // syn
+die Tochter .. // dcéra
+der Bruder .. // brat
+die Geschwister (Pl.) // súrodenci 
+der Großvater .. // starý otec
+die Großmutter .. // stará mama 
+die Großeltern (Pl.) // starí rodičia 
+der Enkel // vnuk
+die Enkelin, -nen // vnučka
+der Ehemann, ..er // manžel
+die Ehefrau, -en // manželka
+der Verwandte, -n // príbuzný
+die Verwandte, -n // príbuzná
+die Tante, -n // teta
+planen // plánovať
+das Fest, -e // oslava
+die Liste, -n //zoznam
+nein // nie
+doch // predsa
+Polen // Poľsko
+der Mann, ..er // muž
+der Steckbrief, -e //profil
+der Brief, -e // list
+das Mitglied, -er // člen
+Spanisch // španielčina
+Englisch // angličtina
+Russisch // ruština
+Chinesisch // čínština
+Polnisch // poľština
+Französisch // francúzština
+Italienisch // taliančina
+Türkisch // turečtina
+Deutsch // nemčina
+welche // aká/aké/akí
+die Sprache, -n	// reč, jazyk
+sprechen // hovoriť
+ein bisschen //trochu
+gar nicht //vôbec
+erzählen // (po)rozprávať
+der Norden (Sg.) // sever
+der Osten (Sg.) // východ
+der Süden (Sg.) // juh
+der Westen (Sg.) // západ

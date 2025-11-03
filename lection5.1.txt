@@ -1,0 +1,90 @@
+die Uhr, -en // hodiny 
+das Auto, -s // auto 
+das Handy, -s // mobil 
+zeichnen // kresliť 
+das Buch, ..er // kniha 
+der Bleistift, -e // ceruzka 
+die Brille, -n // okuliare 
+die Flasche, -n // fľaša 
+die Kamera, -s // fotoaparát
+die Kette, -n // retiazka 
+der Kugelschreiber // guľôčkové pero 
+der Schlüssel // kľúč 
+die Tasche, -n // taška 
+die Uhr, -n // hodinky
+das Material, -ien // materiál 
+das Holz (Sg.) // drevo 
+das Papier (Sg.) // papier 
+das Metall (Sg.) // kov 
+das Plastik (Sg.) // plast 
+das Glas (Sg.) // sklo 
+die Farbe, -n // farba 
+weiß // biely 
+gelb // žltý 
+orange // oranžový 
+rot // červený 
+grün // zelený 
+blau // modrý 
+braun // hnedý 
+schwarz // čierny 
+sehen // vidieť 
+etwas // niečo 
+viele // veľa 
+das Ding // vec 
+sagen // povedať 
+fragen // spýtať sa 
+antworten // odpovedať 
+weiter // ďalej 
+das Feuerzeug, -e // zapaľovač 
+der Geldbeutel, // peňaženka 
+das Taschentuch, ..er // vreckovka
+der Regenschirm, -e // dáždnik 
+der Regen (Sg.) // dážď 
+auf Deutsch // nemecky 
+das Wort, ..er // slovo 
+nennen // nazývať 
+bitten // prosiť 
+bitte // prosím 
+Noch einmal, bitte. // Ešte raz, prosím. 
+Wie schreibt man …? // Ako sa píše …? 
+schreiben // písať 
+man // “človek”, “jeden”,  neosobný podmet   
+sich bedanken // poďakovať sa 
+danke schön // ďakujem pekne  
+das Problem, -e // problém 
+Bitte schön. // Prosím./Nech sa páči. 
+Kein Problem. // Niet za čo. 
+die Wiederholung, -en // opakovanie 
+reagieren auf // reagovať na
+das Wörterbuch ..er , // slovník 
+die Jacke, -n // bunda 
+das Streichholz, ..er // zápalka 
+die Bürste, -n // kefa 
+die Seife, -n // mydlo 
+das Handtuch, ..er // uterák 
+der Föhn, -e // fén 
+Ich weiß nicht. // Neviem. 
+die Klasse, -n // trieda 
+bestellen // objednať 
+die Ware, -n // tovar 
+der Warenkorb, ..e // nákupný košík 
+die Sonne (Sg.) // slnko 
+die Sonnenbrille, -n // slnečné okuliare 
+dunkel- // tmavo 
+hell- // bledo 
+die Nummer, -n // číslo 
+der Kunststoff (Sg.) // umelá hmota 
+das Produkt, -e // výrobok 
+der Produktname, -n // názov výrobku 
+die Menge, -n // množstvo 
+das Formular, -e // formulár 
+die Anrede, -n // oslovenie 
+das Haus, ..er // dom 
+die Adresse, -n // adresa 
+der Unterstrich, -e // podčiarkovník 
+ät (@) // zavináč
+die Straße, -n // ulica 
+die Postleitzahl, -en // poštovné smerovacie číslo  
+die Hausnummer, -n // číslo domu 
+der Ort, -e // miesto 
+die Telefonnummer -n // telefónne číslo 

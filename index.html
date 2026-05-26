@@ -1,234 +1,2560 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="sk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Učenie slovíčok</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body { background: #f8f9fa; }
-    .btn-option { margin: 6px 0; font-size: 1.1rem; }
-    .correct { background-color: #b6fbb6 !important; }
-    .wrong { background-color: #ffb6b6 !important; }
-    .main-container { max-width: 500px; margin: 0 auto; padding: 20px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nemčina A1 – Učíme sa!</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg-sidebar:#0f0f1a;
+  --accent:#6c63ff;
+  --accent2:#8b85ff;
+  --white:#ffffff;
+  --gray:#f5f5f5;
+  --text:#1a1a2e;
+  --text-muted:#666;
+  --der:#3b82f6;
+  --die:#ec4899;
+  --das:#22c55e;
+  --green:#22c55e;
+  --red:#ef4444;
+  --yellow:#f59e0b;
+  --sidebar-w:240px;
+}
+body{font-family:'Nunito',sans-serif;background:var(--gray);color:var(--text);min-height:100vh;display:flex}
+/* SIDEBAR */
+#sidebar{
+  width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--bg-sidebar);
+  height:100vh;position:fixed;left:0;top:0;z-index:100;
+  display:flex;flex-direction:column;padding:0;overflow-y:auto;
+  transition:transform .3s ease;
+}
+#sidebar .logo{
+  padding:24px 20px 16px;font-size:1.3rem;font-weight:900;
+  color:var(--accent);letter-spacing:.5px;border-bottom:1px solid #ffffff18;
+}
+#sidebar .logo span{color:#fff;font-size:.85rem;display:block;font-weight:400;margin-top:2px}
+#sidebar nav{flex:1;padding:12px 0}
+#sidebar nav a{
+  display:flex;align-items:center;gap:12px;padding:12px 20px;
+  color:#ffffffaa;font-size:.95rem;font-weight:600;cursor:pointer;
+  border:none;background:none;width:100%;text-align:left;
+  border-left:3px solid transparent;transition:all .2s;text-decoration:none;
+}
+#sidebar nav a:hover{color:#fff;background:#ffffff0d}
+#sidebar nav a.active{color:#fff;background:#6c63ff22;border-left-color:var(--accent)}
+#sidebar nav a .icon{font-size:1.1rem;width:22px;text-align:center}
+#sidebar .xp-box{padding:16px 20px;border-top:1px solid #ffffff18}
+#sidebar .xp-box .xp-label{color:#ffffffaa;font-size:.8rem;margin-bottom:6px}
+#sidebar .xp-box .xp-val{color:#fff;font-size:1.4rem;font-weight:800}
+#sidebar .xp-box .xp-bar{height:6px;background:#ffffff22;border-radius:3px;margin-top:8px}
+#sidebar .xp-box .xp-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .4s}
+/* HAMBURGER */
+#hamburger{
+  display:none;position:fixed;top:12px;left:12px;z-index:200;
+  background:var(--accent);border:none;border-radius:8px;
+  padding:8px 10px;cursor:pointer;color:#fff;font-size:1.2rem;
+}
+#overlay{display:none;position:fixed;inset:0;background:#00000066;z-index:99}
+/* MAIN */
+#main{
+  margin-left:var(--sidebar-w);flex:1;min-height:100vh;
+  padding:32px;transition:margin .3s;
+}
+.section{display:none;animation:fadeIn .3s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+h1{font-size:1.8rem;font-weight:900;margin-bottom:6px;color:var(--text)}
+.subtitle{color:var(--text-muted);margin-bottom:24px;font-size:.95rem}
+/* CARDS */
+.card{background:#fff;border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 2px 12px #0000000d}
+/* BUTTONS */
+.btn{
+  padding:10px 22px;border-radius:10px;border:none;cursor:pointer;
+  font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:700;transition:all .2s;
+}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-success{background:var(--green);color:#fff}
+.btn-danger{background:var(--red);color:#fff}
+.btn-outline{background:transparent;border:2px solid var(--accent);color:var(--accent)}
+.btn-outline:hover{background:var(--accent);color:#fff}
+.btn-sm{padding:6px 14px;font-size:.82rem;border-radius:8px}
+/* GENDER BADGES */
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.75rem;font-weight:700;color:#fff;margin-left:6px}
+.badge-der{background:var(--der)}
+.badge-die{background:var(--die)}
+.badge-das{background:var(--das)}
+.badge-pl{background:#8b5cf6}
+/* SEARCH */
+.search-box{
+  width:100%;padding:12px 16px;border:2px solid #e5e7eb;border-radius:12px;
+  font-family:'Nunito',sans-serif;font-size:.95rem;outline:none;margin-bottom:16px;
+  transition:border .2s;
+}
+.search-box:focus{border-color:var(--accent)}
+/* TABS */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.tab{
+  padding:7px 16px;border-radius:20px;font-size:.85rem;font-weight:700;
+  cursor:pointer;border:2px solid #e5e7eb;background:#fff;color:var(--text-muted);transition:all .2s;
+}
+.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+/* VOCAB */
+.vocab-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.vocab-item{
+  background:#fff;border-radius:12px;padding:14px 16px;
+  display:flex;flex-direction:column;gap:4px;cursor:pointer;
+  border:2px solid #e5e7eb;transition:all .2s;position:relative;
+}
+.vocab-item:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 16px #6c63ff22}
+.vocab-item.learned{border-color:var(--green);background:#f0fdf4}
+.vocab-item.starred{border-right:4px solid var(--yellow)}
+.vocab-item .de{font-size:1.05rem;font-weight:800;color:var(--text)}
+.vocab-item .sk{font-size:.9rem;color:var(--text-muted)}
+.vocab-item .example{font-size:.8rem;color:#888;font-style:italic;margin-top:4px}
+.vocab-item .star-btn{
+  position:absolute;top:10px;right:10px;background:none;border:none;
+  cursor:pointer;font-size:1.1rem;opacity:.4;transition:opacity .2s;
+}
+.vocab-item .star-btn:hover{opacity:1}
+.vocab-item.starred .star-btn{opacity:1}
+/* MODAL */
+.modal{
+  display:none;position:fixed;inset:0;background:#00000066;z-index:300;
+  align-items:center;justify-content:center;
+}
+.modal.open{display:flex}
+.modal-box{
+  background:#fff;border-radius:20px;padding:32px;max-width:500px;width:90%;
+  position:relative;animation:fadeIn .3s ease;
+}
+.modal-close{
+  position:absolute;top:16px;right:16px;background:none;border:none;
+  font-size:1.4rem;cursor:pointer;color:var(--text-muted);
+}
+/* FLASHCARD */
+.flashcard-wrap{perspective:1000px;width:100%;max-width:480px;margin:0 auto 24px}
+.flashcard{
+  width:100%;height:220px;position:relative;transform-style:preserve-3d;
+  transition:transform .5s;cursor:pointer;
+}
+.flashcard.flipped{transform:rotateY(180deg)}
+.card-face{
+  position:absolute;inset:0;backface-visibility:hidden;
+  background:#fff;border-radius:20px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px;box-shadow:0 4px 24px #0000001a;border:2px solid #e5e7eb;
+}
+.card-back{transform:rotateY(180deg);background:var(--accent)}
+.card-back .card-word{color:#fff}
+.card-back .card-hint{color:#ffffffaa}
+.card-word{font-size:2rem;font-weight:900;color:var(--text);text-align:center}
+.card-hint{font-size:.9rem;color:var(--text-muted);margin-top:8px}
+.card-mode-label{
+  font-size:.75rem;background:var(--accent);color:#fff;
+  padding:3px 10px;border-radius:20px;margin-bottom:12px;font-weight:700;
+}
+.fc-controls{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.fc-score{text-align:center;font-size:.9rem;color:var(--text-muted);margin-bottom:16px;font-weight:700}
+.fc-options{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+/* QUIZ */
+.quiz-question{font-size:1.15rem;font-weight:700;margin-bottom:20px;line-height:1.5}
+.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.quiz-opt{
+  padding:14px 16px;border-radius:12px;border:2px solid #e5e7eb;
+  background:#fff;cursor:pointer;font-family:'Nunito',sans-serif;
+  font-size:.95rem;font-weight:600;transition:all .2s;text-align:left;
+}
+.quiz-opt:hover{border-color:var(--accent)}
+.quiz-opt.correct{background:#f0fdf4;border-color:var(--green);color:var(--green)}
+.quiz-opt.wrong{background:#fef2f2;border-color:var(--red);color:var(--red)}
+.quiz-progress{
+  height:8px;background:#e5e7eb;border-radius:4px;margin-bottom:20px;overflow:hidden;
+}
+.quiz-progress-fill{height:100%;background:var(--accent);border-radius:4px;transition:width .3s}
+.quiz-feedback{
+  padding:12px 16px;border-radius:10px;margin-bottom:16px;font-weight:600;font-size:.9rem;display:none;
+}
+.quiz-feedback.correct{background:#f0fdf4;color:#166534;border:1px solid #86efac}
+.quiz-feedback.wrong{background:#fef2f2;color:#991b1b;border:1px solid #fca5a5}
+/* PISANIE */
+.writing-exercise{margin-bottom:24px}
+.writing-exercise .prompt{
+  font-size:1rem;font-weight:700;margin-bottom:12px;color:var(--text);
+}
+.writing-exercise .hint{font-size:.85rem;color:var(--text-muted);margin-bottom:8px}
+.writing-input{
+  width:100%;padding:12px 16px;border:2px solid #e5e7eb;border-radius:12px;
+  font-family:'Nunito',sans-serif;font-size:1rem;outline:none;transition:border .2s;
+}
+.writing-input:focus{border-color:var(--accent)}
+.writing-result{margin-top:10px;font-size:.9rem;font-weight:600}
+.w-correct{color:var(--green)}
+.w-wrong{color:var(--red);text-decoration:line-through}
+.w-word{display:inline-block;margin:2px;padding:1px 4px;border-radius:4px}
+.w-word.ok{background:#f0fdf4;color:#166534}
+.w-word.bad{background:#fef2f2;color:#991b1b;text-decoration:line-through}
+/* WORD CHIPS */
+.chips-wrap{display:flex;flex-wrap:wrap;gap:8px;min-height:50px;margin:12px 0;padding:12px;background:#f8f9fa;border-radius:12px;border:2px dashed #e5e7eb}
+.chip{
+  padding:7px 14px;background:#fff;border:2px solid #e5e7eb;border-radius:20px;
+  cursor:pointer;font-weight:700;font-size:.9rem;transition:all .2s;user-select:none;
+}
+.chip:hover{border-color:var(--accent);background:#f0f0ff}
+.chip.placed{background:var(--accent);color:#fff;border-color:var(--accent)}
+.drop-zone{display:flex;flex-wrap:wrap;gap:8px;min-height:50px;padding:12px;background:#fff;border:2px solid #e5e7eb;border-radius:12px;margin:12px 0}
+/* GRAMATIKA */
+.gram-card{
+  background:#fff;border-radius:16px;margin-bottom:12px;overflow:hidden;
+  box-shadow:0 2px 8px #0000000a;border:1px solid #e5e7eb;
+}
+.gram-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 20px;cursor:pointer;font-weight:700;
+}
+.gram-header:hover{background:#f8f8ff}
+.gram-body{display:none;padding:0 20px 20px;border-top:1px solid #e5e7eb}
+.gram-body.open{display:block}
+table.gram-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.9rem}
+table.gram-table th{background:#f3f4f6;padding:8px 12px;text-align:left;font-weight:700}
+table.gram-table td{padding:8px 12px;border-bottom:1px solid #f0f0f0}
+table.gram-table tr:hover td{background:#f8f8ff}
+/* SITUACIE */
+.dialog-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.dialog-line{padding:10px 14px;border-radius:10px;margin-bottom:8px;line-height:1.5}
+.dialog-de{background:#f0f0ff;border-left:4px solid var(--accent)}
+.dialog-sk{background:#f8f8f8;border-left:4px solid #e5e7eb;color:var(--text-muted)}
+.dialog-speaker{font-size:.75rem;font-weight:800;color:var(--accent);margin-bottom:3px}
+/* POKROK */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;margin-bottom:24px}
+.stat-box{background:#fff;border-radius:16px;padding:20px;text-align:center;box-shadow:0 2px 8px #0000000a}
+.stat-box .val{font-size:2rem;font-weight:900;color:var(--accent)}
+.stat-box .lbl{font-size:.8rem;color:var(--text-muted);margin-top:4px;font-weight:600}
+.progress-bar{height:10px;background:#e5e7eb;border-radius:5px;overflow:hidden;margin:6px 0 12px}
+.progress-fill{height:100%;background:var(--accent);border-radius:5px;transition:width .5s}
+.achievements{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
+.ach-badge{
+  display:flex;align-items:center;gap:8px;padding:10px 16px;
+  background:#fff;border-radius:12px;border:2px solid #e5e7eb;font-size:.85rem;font-weight:700;
+}
+.ach-badge.earned{border-color:var(--yellow);background:#fffbeb}
+.weekly-chart{display:flex;align-items:flex-end;gap:8px;height:80px;margin:16px 0}
+.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.bar{background:var(--accent);border-radius:4px 4px 0 0;width:100%;transition:height .5s;min-height:4px}
+.bar-label{font-size:.7rem;color:var(--text-muted);font-weight:700}
+/* MOJ DEN */
+.window-card{
+  background:#fff;border-radius:16px;padding:20px 24px;margin-bottom:16px;
+  border:2px solid #e5e7eb;transition:all .3s;
+}
+.window-card.done{border-color:var(--green);background:#f0fdf4}
+.window-card .win-title{font-size:1.05rem;font-weight:800;margin-bottom:4px}
+.window-card .win-desc{font-size:.88rem;color:var(--text-muted);margin-bottom:14px}
+.window-card .win-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.timer{
+  font-size:1.5rem;font-weight:900;color:var(--accent);
+  background:#f0f0ff;padding:4px 16px;border-radius:10px;min-width:72px;text-align:center;
+}
+.timer.running{color:var(--green)}
+.streak-box{
+  background:linear-gradient(135deg,#ff6b35,#f7c59f);
+  border-radius:16px;padding:20px;color:#fff;margin-bottom:16px;
+  display:flex;align-items:center;gap:16px;
+}
+.streak-box .fire{font-size:2.5rem}
+.streak-box .streak-val{font-size:2rem;font-weight:900}
+.streak-box .streak-lbl{font-size:.85rem;opacity:.9}
+.week-dots{display:flex;gap:8px;margin:12px 0}
+.week-dot{
+  width:32px;height:32px;border-radius:50%;background:#e5e7eb;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:800;color:#888;
+}
+.week-dot.done{background:var(--green);color:#fff}
+.week-dot.today{border:3px solid var(--accent)}
+.tip-box{
+  background:linear-gradient(135deg,#6c63ff,#8b85ff);
+  border-radius:16px;padding:20px;color:#fff;margin-top:16px;
+}
+.tip-box .tip-label{font-size:.75rem;opacity:.8;font-weight:700;margin-bottom:6px}
+.tip-box .tip-text{font-size:.95rem;font-weight:600;line-height:1.5}
+/* CONFETTI */
+.confetti-piece{
+  position:fixed;pointer-events:none;z-index:9999;
+  width:10px;height:10px;border-radius:2px;
+  animation:confettiFall 2.5s ease-in forwards;
+}
+@keyframes confettiFall{
+  0%{transform:translateY(-20px) rotate(0deg);opacity:1}
+  100%{transform:translateY(100vh) rotate(720deg);opacity:0}
+}
+/* WELCOME MODAL */
+#welcomeModal .modal-box{text-align:center;padding:40px}
+#welcomeModal .welcome-flag{font-size:4rem;margin-bottom:16px}
+#welcomeModal h2{font-size:1.5rem;font-weight:900;margin-bottom:10px}
+#welcomeModal p{color:var(--text-muted);margin-bottom:24px;line-height:1.6}
+/* RESPONSIVE */
+@media(max-width:768px){
+  #sidebar{transform:translateX(-100%)}
+  #sidebar.open{transform:translateX(0)}
+  #hamburger{display:block}
+  #overlay.open{display:block}
+  #main{margin-left:0;padding:20px 16px;padding-top:56px}
+  .quiz-options{grid-template-columns:1fr}
+  .dialog-wrap{grid-template-columns:1fr}
+  .vocab-list{grid-template-columns:1fr}
+  .stat-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  h1{font-size:1.4rem}
+  .stat-grid{grid-template-columns:1fr}
+}
+/* VOCAB DETAIL MODAL */
+.vocab-detail-word{font-size:2rem;font-weight:900;margin-bottom:8px}
+.vocab-detail-sk{font-size:1.1rem;color:var(--text-muted);margin-bottom:16px}
+.vocab-detail-ex{font-style:italic;color:#555;margin-bottom:16px;padding:12px;background:#f8f8ff;border-radius:8px}
+.conj-table td,.conj-table th{padding:6px 12px;font-size:.88rem}
+/* FILL GAPS */
+.gap-input{
+  border:none;border-bottom:2px solid var(--accent);
+  font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;
+  width:120px;outline:none;text-align:center;background:transparent;
+}
+.gap-input.correct{border-color:var(--green);color:var(--green)}
+.gap-input.wrong{border-color:var(--red);color:var(--red)}
+</style>
 </head>
 <body>
-  <!-- Tu sa vloží hlavička -->
-  <div id="header"></div>
 
-  <div class="container-fluid">
-    <div class="main-container">
-      <div id="loader" class="card shadow p-4 mb-4">
-        <h1 class="mb-4 text-center">Učenie slovíčok</h1>
+<!-- HAMBURGER -->
+<button id="hamburger" onclick="toggleSidebar()">☰</button>
+<div id="overlay" onclick="toggleSidebar()"></div>
 
-        <div class="mb-3">
-          <label for="lektionSelect" class="form-label">Vyber lekciu:</label>
-          <select class="form-select" id="lektionSelect"></select>
-        </div>
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="logo">🇩🇪 Nemčina A1<span>Učebný denník</span></div>
+  <nav>
+    <a class="active" onclick="showSection('mojden')" data-sec="mojden"><span class="icon">📊</span>Môj deň</a>
+    <a onclick="showSection('slovnik')" data-sec="slovnik"><span class="icon">📚</span>Slovník</a>
+    <a onclick="showSection('karticky')" data-sec="karticky"><span class="icon">🃏</span>Kartičky</a>
+    <a onclick="showSection('kviz')" data-sec="kviz"><span class="icon">🎯</span>Kvíz</a>
+    <a onclick="showSection('pisanie')" data-sec="pisanie"><span class="icon">✏️</span>Písanie</a>
+    <a onclick="showSection('gramatika')" data-sec="gramatika"><span class="icon">📐</span>Gramatika</a>
+    <a onclick="showSection('situacie')" data-sec="situacie"><span class="icon">🗣️</span>Situácie</a>
+    <a onclick="showSection('pokrok')" data-sec="pokrok"><span class="icon">📈</span>Pokrok</a>
+  </nav>
+  <div class="xp-box">
+    <div class="xp-label">Celkové XP</div>
+    <div class="xp-val" id="sidebarXP">0 XP</div>
+    <div class="xp-bar"><div class="xp-fill" id="sidebarXPFill" style="width:0%"></div></div>
+  </div>
+</nav>
 
-        <div class="mb-3">
-          <label class="form-check">
-            <input type="radio" name="smer" value="en-sk" class="form-check-input" checked>
-            <span class="form-check-label">Nemčina → Slovenčina</span>
-          </label>
-          <label class="form-check">
-            <input type="radio" name="smer" value="sk-en" class="form-check-input">
-            <span class="form-check-label">Slovenčina → Nemčina</span>
-          </label>
-          <label class="form-check">
-            <input type="radio" name="smer" value="mix" class="form-check-input">
-            <span class="form-check-label">Mix (oboma smermi)</span>
-          </label>
-        </div>
+<!-- MAIN CONTENT -->
+<main id="main">
 
-        <button class="btn btn-primary w-100" onclick="startQuiz()">Spusti test</button>
+<!-- ===== MÔJ DEŇ ===== -->
+<section id="sec-mojden" class="section active">
+  <h1>📊 Môj deň</h1>
+  <p class="subtitle">Tvoj denný plán učenia – 3 okná po 5 minút</p>
+
+  <div class="streak-box">
+    <div class="fire">🔥</div>
+    <div>
+      <div class="streak-val" id="streakVal">0</div>
+      <div class="streak-lbl">dní v rade</div>
+    </div>
+    <div style="margin-left:auto;text-align:right">
+      <div style="font-size:.85rem;opacity:.9">Dnešné XP</div>
+      <div style="font-size:1.5rem;font-weight:900" id="dailyXPval">0 / 5</div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:16px">
+    <div style="font-weight:700;margin-bottom:8px;color:var(--text-muted);font-size:.85rem">TENTO TÝŽDEŇ</div>
+    <div class="week-dots" id="weekDots"></div>
+  </div>
+
+  <div class="window-card" id="win1">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+      <span style="background:var(--accent);color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.85rem">1</span>
+      <div class="win-title">Opakovanie</div>
+    </div>
+    <div class="win-desc">Zopakuj staré slovíčka cez kartičky – venuj tomu 5 minút</div>
+    <div class="win-actions">
+      <div class="timer" id="timer1">5:00</div>
+      <button class="btn btn-primary btn-sm" onclick="startTimer(1)">▶ START</button>
+      <button class="btn btn-success btn-sm" onclick="markDone(1)" style="display:none" id="doneBtn1">✓ HOTOVO</button>
+      <span id="doneLabel1" style="display:none;font-weight:800;color:var(--green)">✓ Splnené!</span>
+    </div>
+  </div>
+
+  <div class="window-card" id="win2">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+      <span style="background:var(--accent);color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.85rem">2</span>
+      <div class="win-title">Nová lekcia</div>
+    </div>
+    <div class="win-desc">Prejdi novú tému v sekcii Slovník – nauč sa 10 nových slovíčok</div>
+    <div class="win-actions">
+      <div class="timer" id="timer2">5:00</div>
+      <button class="btn btn-primary btn-sm" onclick="startTimer(2)">▶ START</button>
+      <button class="btn btn-success btn-sm" onclick="markDone(2)" style="display:none" id="doneBtn2">✓ HOTOVO</button>
+      <span id="doneLabel2" style="display:none;font-weight:800;color:var(--green)">✓ Splnené!</span>
+    </div>
+  </div>
+
+  <div class="window-card" id="win3">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+      <span style="background:var(--accent);color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.85rem">3</span>
+      <div class="win-title">Písanie</div>
+    </div>
+    <div class="win-desc">Napíš 3 vety s novými slovíčkami v sekcii Písanie</div>
+    <div class="win-actions">
+      <div class="timer" id="timer3">5:00</div>
+      <button class="btn btn-primary btn-sm" onclick="startTimer(3)">▶ START</button>
+      <button class="btn btn-success btn-sm" onclick="markDone(3)" style="display:none" id="doneBtn3">✓ HOTOVO</button>
+      <span id="doneLabel3" style="display:none;font-weight:800;color:var(--green)">✓ Splnené!</span>
+    </div>
+  </div>
+
+  <div id="allDoneMsg" style="display:none" class="card" style="text-align:center;background:linear-gradient(135deg,#6c63ff,#a78bfa);color:#fff">
+    <div style="font-size:2rem;margin-bottom:8px">🎉</div>
+    <div style="font-size:1.2rem;font-weight:900">Skvelá práca! +5 XP</div>
+    <div style="opacity:.85;margin-top:4px">Splnil si všetky 3 okná dnes!</div>
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">💡 TIP DŇA</div>
+    <div class="tip-text" id="tipText">Načítavam tip...</div>
+  </div>
+</section>
+
+<!-- ===== SLOVNÍK ===== -->
+<section id="sec-slovnik" class="section">
+  <h1>📚 Slovník</h1>
+  <p class="subtitle">Klikni na slovíčko pre detail a precvičenie</p>
+  <input type="text" class="search-box" id="vocabSearch" placeholder="🔍 Hľadaj slovíčko..." oninput="filterVocab()">
+  <div class="tabs" id="vocabTabs">
+    <div class="tab active" onclick="setVocabCat('all',this)">Všetko</div>
+    <div class="tab" onclick="setVocabCat('pozdravy',this)">Pozdravy</div>
+    <div class="tab" onclick="setVocabCat('cisla',this)">Čísla</div>
+    <div class="tab" onclick="setVocabCat('rodina',this)">Rodina</div>
+    <div class="tab" onclick="setVocabCat('farby',this)">Farby</div>
+    <div class="tab" onclick="setVocabCat('domov',this)">Domov</div>
+    <div class="tab" onclick="setVocabCat('jedlo',this)">Jedlo</div>
+    <div class="tab" onclick="setVocabCat('oblecenie',this)">Oblečenie</div>
+    <div class="tab" onclick="setVocabCat('povolania',this)">Povolania</div>
+    <div class="tab" onclick="setVocabCat('doprava',this)">Doprava</div>
+    <div class="tab" onclick="setVocabCat('cas',this)">Čas</div>
+    <div class="tab" onclick="setVocabCat('adjektiva',this)">Prídavné mená</div>
+    <div class="tab" onclick="setVocabCat('slovesa',this)">Slovesá</div>
+  </div>
+  <div class="vocab-list" id="vocabList"></div>
+</section>
+
+<!-- Vocab Detail Modal -->
+<div class="modal" id="vocabModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeVocabModal()">✕</button>
+    <div id="vocabModalContent"></div>
+  </div>
+</div>
+
+<!-- ===== KARTIČKY ===== -->
+<section id="sec-karticky" class="section">
+  <h1>🃏 Kartičky</h1>
+  <p class="subtitle">Stlač Medzerník pre otočenie, šípky pre ďalšiu kartu</p>
+  <div class="card">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center">
+      <div style="font-weight:700;margin-right:4px">Režim:</div>
+      <button class="btn btn-sm btn-outline" id="fcModeA" onclick="setFCMode('A')">A: SK→DE</button>
+      <button class="btn btn-sm btn-outline" id="fcModeB" onclick="setFCMode('B')">B: DE→SK</button>
+      <button class="btn btn-sm btn-outline" id="fcModeC" onclick="setFCMode('C')">C: Článok</button>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <select id="fcCatFilter" onchange="initFlashcards()" class="search-box" style="width:auto;margin:0;padding:7px 12px;font-size:.85rem">
+          <option value="all">Všetky kategórie</option>
+          <option value="pozdravy">Pozdravy</option>
+          <option value="cisla">Čísla</option>
+          <option value="rodina">Rodina</option>
+          <option value="farby">Farby</option>
+          <option value="domov">Domov</option>
+          <option value="jedlo">Jedlo</option>
+          <option value="oblecenie">Oblečenie</option>
+          <option value="povolania">Povolania</option>
+          <option value="doprava">Doprava</option>
+          <option value="cas">Čas</option>
+          <option value="adjektiva">Prídavné mená</option>
+          <option value="slovesa">Slovesá</option>
+        </select>
+        <button class="btn btn-sm btn-outline" onclick="shuffleCards()">🔀 Miešať</button>
       </div>
-
-      <div id="quiz" class="card shadow p-4 d-none">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h2 id="question" class="fs-4 m-0"></h2>
-          <button class="btn btn-sm btn-secondary" onclick="goHome()">Domov</button>
+    </div>
+    <div class="fc-score" id="fcScore">Karta 1 / 1 &nbsp;|&nbsp; ✓ 0 &nbsp;|&nbsp; ✗ 0</div>
+    <div class="flashcard-wrap">
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="card-face card-front">
+          <div class="card-mode-label" id="fcModeLabel">SK → DE</div>
+          <div class="card-word" id="fcFront">Načítavam...</div>
+          <div class="card-hint" id="fcFrontHint"></div>
         </div>
-        <div id="options" class="d-flex flex-column"></div>
+        <div class="card-face card-back">
+          <div class="card-mode-label" id="fcModeLabelBack">DE → SK</div>
+          <div class="card-word" id="fcBack">–</div>
+          <div class="card-hint" id="fcBackHint"></div>
+        </div>
+      </div>
+    </div>
+    <p id="fcFlipHint" style="text-align:center;color:var(--text-muted);font-size:.85rem;margin-bottom:16px">Klikni na kartu alebo stlač Medzerník</p>
+
+    <!-- MODE A & B controls -->
+    <div class="fc-options" id="fcABControls">
+      <button class="btn btn-danger" onclick="fcAnswer(false)">✗ Nevedel som</button>
+      <button class="btn btn-success" onclick="fcAnswer(true)">✓ Vedel som</button>
+    </div>
+
+    <!-- MODE C controls: der / die / das buttons -->
+    <div id="fcCControls" style="display:none;text-align:center">
+      <div style="font-weight:700;color:var(--text-muted);font-size:.9rem;margin-bottom:12px">Vyber správny člen:</div>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+        <button class="btn" style="background:var(--der);color:#fff;font-size:1.15rem;font-weight:900;padding:12px 30px;border-radius:12px" onclick="answerModeC('der')">der</button>
+        <button class="btn" style="background:var(--die);color:#fff;font-size:1.15rem;font-weight:900;padding:12px 30px;border-radius:12px" onclick="answerModeC('die')">die</button>
+        <button class="btn" style="background:var(--das);color:#fff;font-size:1.15rem;font-weight:900;padding:12px 30px;border-radius:12px" onclick="answerModeC('das')">das</button>
+      </div>
+      <div id="fcCResult" style="margin-top:12px;font-size:1rem;font-weight:700;min-height:24px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== KVÍZ ===== -->
+<section id="sec-kviz" class="section">
+  <h1>🎯 Kvíz</h1>
+  <p class="subtitle">10 otázok, okamžitá spätná väzba, stlač Enter pre potvrdenie</p>
+
+  <!-- Persistent quiz-type tab selector -->
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px" id="quizTypeTabs">
+    <button class="quiz-type-tab tab active" data-qtype="translation" onclick="selectQuizType('translation',this)">🔤 Preklad</button>
+    <button class="quiz-type-tab tab" data-qtype="article" onclick="selectQuizType('article',this)">📌 Člen</button>
+    <button class="quiz-type-tab tab" data-qtype="sentence" onclick="selectQuizType('sentence',this)">📝 Doplň vetu</button>
+    <button class="quiz-type-tab tab" data-qtype="mixed" onclick="selectQuizType('mixed',this)">🎲 Zmiešaný</button>
+  </div>
+
+  <div id="quizStart" class="card" style="text-align:center;padding:32px">
+    <div style="font-size:3rem;margin-bottom:12px" id="quizStartEmoji">🔤</div>
+    <h2 style="margin-bottom:8px" id="quizStartTitle">Preklad</h2>
+    <p style="color:var(--text-muted);margin-bottom:20px" id="quizStartDesc">Slovenské slovo → vyber správny nemecký preklad zo 4 možností</p>
+    <button class="btn btn-primary" onclick="startQuiz(selectedQuizType)" style="font-size:1rem;padding:14px 36px">▶ Začať kvíz</button>
+  </div>
+
+  <div id="quizGame" style="display:none">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <span style="font-weight:700;color:var(--accent);font-size:.9rem" id="quizTypeLabel">🔤 Preklad</span>
+        <span style="font-weight:800;color:var(--text-muted)" id="quizQNum">1 / 10</span>
+      </div>
+      <div class="quiz-progress"><div class="quiz-progress-fill" id="quizPFill" style="width:10%"></div></div>
+      <div class="quiz-question" id="quizQuestion">Otázka...</div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <button class="btn btn-primary" id="quizNextBtn" onclick="nextQuizQ()" style="display:none">Ďalšia →</button>
+    </div>
+  </div>
+
+  <div id="quizResult" style="display:none" class="card" style="text-align:center">
+    <div style="font-size:3rem;margin-bottom:12px" id="quizResultEmoji">🎉</div>
+    <h2 style="margin-bottom:8px" id="quizResultTitle">Výsledok</h2>
+    <div style="font-size:2.5rem;font-weight:900;color:var(--accent);margin-bottom:8px" id="quizResultScore">0/10</div>
+    <div style="color:var(--text-muted);margin-bottom:20px" id="quizResultPct">0%</div>
+    <div style="display:flex;gap:12px;justify-content:center">
+      <button class="btn btn-primary" onclick="retryQuiz()">🔄 Zopakovať</button>
+      <button class="btn btn-outline" onclick="backToQuizStart()">Iný typ</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PÍSANIE ===== -->
+<section id="sec-pisanie" class="section">
+  <h1>✏️ Písanie</h1>
+  <p class="subtitle">Tri typy cvičení pre precvičenie písomnej nemčiny</p>
+  <div class="tabs">
+    <div class="tab active" onclick="setPisTab('preloz',this)">Preložte vetu</div>
+    <div class="tab" onclick="setPisTab('doplnte',this)">Doplňte medzery</div>
+    <div class="tab" onclick="setPisTab('poskladajte',this)">Poskladajte vetu</div>
+  </div>
+
+  <!-- PRELOŽTE VETU -->
+  <div id="pisTab-preloz">
+    <div id="prelozList"></div>
+  </div>
+
+  <!-- DOPLŇTE MEDZERY -->
+  <div id="pisTab-doplnte" style="display:none">
+    <div id="doplnteList"></div>
+  </div>
+
+  <!-- POSKLADAJTE VETU -->
+  <div id="pisTab-poskladajte" style="display:none">
+    <div id="poskladajteList"></div>
+  </div>
+</section>
+
+<!-- ===== GRAMATIKA ===== -->
+<section id="sec-gramatika" class="section">
+  <h1>📐 Gramatika</h1>
+  <p class="subtitle">Klikni na kartu pre rozbalenie a precvičenie</p>
+  <div id="gramList"></div>
+</section>
+
+<!-- ===== SITUÁCIE ===== -->
+<section id="sec-situacie" class="section">
+  <h1>🗣️ Situácie</h1>
+  <p class="subtitle">Dialógy s prekladom a precvičením</p>
+  <div class="tabs" id="situacieTabs"></div>
+  <div id="situacieContent"></div>
+</section>
+
+<!-- ===== POKROK ===== -->
+<section id="sec-pokrok" class="section">
+  <h1>📈 Pokrok</h1>
+  <p class="subtitle">Tvoje štatistiky a úspechy</p>
+  <div class="stat-grid">
+    <div class="stat-box"><div class="val" id="statXP">0</div><div class="lbl">Celkové XP</div></div>
+    <div class="stat-box"><div class="val" id="statLevel">1</div><div class="lbl">Úroveň</div></div>
+    <div class="stat-box"><div class="val" id="statStreak">0</div><div class="lbl">Deň streak</div></div>
+    <div class="stat-box"><div class="val" id="statWords">0</div><div class="lbl">Slovíčka</div></div>
+    <div class="stat-box"><div class="val" id="statQuizAcc">0%</div><div class="lbl">Kvíz presnosť</div></div>
+    <div class="stat-box"><div class="val" id="statCards">0</div><div class="lbl">Kartičky</div></div>
+  </div>
+
+  <!-- Prominent level card -->
+  <div class="card" style="background:linear-gradient(135deg,#6c63ff,#a78bfa);color:#fff;padding:28px;margin-bottom:20px">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+      <div>
+        <div style="font-size:.8rem;font-weight:700;opacity:.85;margin-bottom:4px;letter-spacing:.5px">AKTUÁLNA ÚROVEŇ</div>
+        <div style="font-size:1.7rem;font-weight:900" id="levelLabel">Začiatočník</div>
+        <div style="font-size:.85rem;opacity:.85;margin-top:2px" id="levelSubLabel">Level 1 z 5</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:.8rem;font-weight:700;opacity:.85;margin-bottom:4px">CELKOVÉ XP</div>
+        <div style="font-size:2.2rem;font-weight:900" id="levelXPBig">0</div>
+      </div>
+    </div>
+    <div style="margin-top:16px">
+      <div style="display:flex;justify-content:space-between;font-size:.82rem;opacity:.9;margin-bottom:6px">
+        <span>Pokrok na ďalší level</span>
+        <span id="xpProgress">0 / 50 XP</span>
+      </div>
+      <div style="height:10px;background:rgba(255,255,255,.3);border-radius:5px;overflow:hidden">
+        <div id="xpProgressFill" style="height:100%;background:#fff;border-radius:5px;transition:width .5s;width:0%"></div>
       </div>
     </div>
   </div>
 
-<script>
-  // Načíta hlavičku z externého súboru
-  async function loadHeader() {
-    try {
-      const resp = await fetch("header.html");
-      if (resp.ok) {
-        const html = await resp.text();
-        document.getElementById("header").innerHTML = html;
-      } else {
-        document.getElementById("header").innerHTML = "<p class='text-danger text-center mt-3'>Nepodarilo sa načítať hlavičku.</p>";
-      }
-    } catch (e) {
-      document.getElementById("header").innerHTML = "<p class='text-danger text-center mt-3'>Chyba pri načítaní hlavičky.</p>";
-    }
-  }
+  <div class="card">
+    <h3 style="margin-bottom:12px">Zvládnutosť kategórií</h3>
+    <div id="catMastery"></div>
+  </div>
 
-  loadHeader();
+  <div class="card">
+    <h3 style="margin-bottom:12px">Týždenná aktivita</h3>
+    <div class="weekly-chart" id="weeklyChart"></div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-bottom:12px">🏆 Odznaky</h3>
+    <div class="achievements" id="achievementsList"></div>
+  </div>
+</section>
+
+</main>
+
+<!-- WELCOME MODAL -->
+<div class="modal" id="welcomeModal">
+  <div class="modal-box" id="welcomeBox">
+    <div class="welcome-flag">🇩🇪</div>
+    <h2>Vitaj Pavol!</h2>
+    <p>Začnime sa učiť nemčinu.<br>Každý deň 15 minút a za mesiac budeš hovoriť základnú nemčinu!</p>
+    <button class="btn btn-primary" onclick="closeWelcome()" style="font-size:1rem;padding:12px 32px">Začať učenie! 🚀</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const VOCAB = [
+  // POZDRAVY
+  {de:"Guten Morgen",sk:"Dobré ráno",cat:"pozdravy",ex:"Guten Morgen! Wie geht es dir?"},
+  {de:"Guten Tag",sk:"Dobrý deň",cat:"pozdravy",ex:"Guten Tag! Ich bin Pavol."},
+  {de:"Guten Abend",sk:"Dobrý večer",cat:"pozdravy",ex:"Guten Abend! Wie war dein Tag?"},
+  {de:"Hallo",sk:"Ahoj",cat:"pozdravy",ex:"Hallo! Ich heiße Maria."},
+  {de:"Tschüss",sk:"Ahoj (odchod)",cat:"pozdravy",ex:"Tschüss! Bis morgen!"},
+  {de:"Auf Wiedersehen",sk:"Dovidenia",cat:"pozdravy",ex:"Auf Wiedersehen! Bis bald."},
+  {de:"Gute Nacht",sk:"Dobrú noc",cat:"pozdravy",ex:"Gute Nacht! Schlaf gut."},
+  {de:"Wie geht es dir?",sk:"Ako sa máš?",cat:"pozdravy",ex:"Wie geht es dir? – Gut, danke!"},
+  {de:"Danke",sk:"Ďakujem",cat:"pozdravy",ex:"Danke sehr für die Hilfe!"},
+  {de:"Bitte",sk:"Prosím",cat:"pozdravy",ex:"Bitte, kommen Sie herein."},
+  {de:"Entschuldigung",sk:"Prepáčte",cat:"pozdravy",ex:"Entschuldigung, wo ist der Bahnhof?"},
+  {de:"Ja",sk:"Áno",cat:"pozdravy",ex:"Ja, ich verstehe das."},
+  {de:"Nein",sk:"Nie",cat:"pozdravy",ex:"Nein, das stimmt nicht."},
+  // ČÍSLA
+  {de:"eins",sk:"1",cat:"cisla",ex:"Ich habe eins."},
+  {de:"zwei",sk:"2",cat:"cisla",ex:"Ich habe zwei Kinder."},
+  {de:"drei",sk:"3",cat:"cisla",ex:"Das Haus hat drei Zimmer."},
+  {de:"vier",sk:"4",cat:"cisla",ex:"Es ist vier Uhr."},
+  {de:"fünf",sk:"5",cat:"cisla",ex:"Ich bin fünf Jahre alt."},
+  {de:"sechs",sk:"6",cat:"cisla",ex:"Der Zug fährt um sechs."},
+  {de:"sieben",sk:"7",cat:"cisla",ex:"Sieben Tage hat die Woche."},
+  {de:"acht",sk:"8",cat:"cisla",ex:"Es ist acht Uhr morgens."},
+  {de:"neun",sk:"9",cat:"cisla",ex:"Neun Monate im Jahr."},
+  {de:"zehn",sk:"10",cat:"cisla",ex:"Ich bin zehn Minuten zu spät."},
+  {de:"elf",sk:"11",cat:"cisla",ex:"Es ist elf Uhr."},
+  {de:"zwölf",sk:"12",cat:"cisla",ex:"Es gibt zwölf Monate."},
+  {de:"dreizehn",sk:"13",cat:"cisla",ex:"Er ist dreizehn Jahre alt."},
+  {de:"vierzehn",sk:"14",cat:"cisla",ex:"Das kostet vierzehn Euro."},
+  {de:"fünfzehn",sk:"15",cat:"cisla",ex:"Sie ist fünfzehn."},
+  {de:"sechzehn",sk:"16",cat:"cisla",ex:"Mit sechzehn lernt man Auto fahren."},
+  {de:"siebzehn",sk:"17",cat:"cisla",ex:"Er ist siebzehn."},
+  {de:"achtzehn",sk:"18",cat:"cisla",ex:"Mit achtzehn ist man erwachsen."},
+  {de:"neunzehn",sk:"19",cat:"cisla",ex:"Es sind neunzehn Grad."},
+  {de:"zwanzig",sk:"20",cat:"cisla",ex:"Das kostet zwanzig Euro."},
+  {de:"dreißig",sk:"30",cat:"cisla",ex:"Ich bin dreißig Jahre alt."},
+  {de:"vierzig",sk:"40",cat:"cisla",ex:"Vierzig Prozent."},
+  {de:"fünfzig",sk:"50",cat:"cisla",ex:"Fünfzig Kilometer."},
+  {de:"sechzig",sk:"60",cat:"cisla",ex:"Er ist sechzig."},
+  {de:"siebzig",sk:"70",cat:"cisla",ex:"Siebzig Euro."},
+  {de:"achtzig",sk:"80",cat:"cisla",ex:"Achtzig Gramm."},
+  {de:"neunzig",sk:"90",cat:"cisla",ex:"Neunzig Minuten."},
+  {de:"hundert",sk:"100",cat:"cisla",ex:"Hundert Prozent!"},
+  // RODINA
+  {de:"der Vater",sk:"otec",cat:"rodina",gender:"der",ex:"Mein Vater ist Arzt."},
+  {de:"die Mutter",sk:"mama",cat:"rodina",gender:"die",ex:"Meine Mutter kocht sehr gut."},
+  {de:"der Bruder",sk:"brat",cat:"rodina",gender:"der",ex:"Ich habe einen Bruder."},
+  {de:"die Schwester",sk:"sestra",cat:"rodina",gender:"die",ex:"Meine Schwester ist jung."},
+  {de:"der Sohn",sk:"syn",cat:"rodina",gender:"der",ex:"Sein Sohn ist fünf Jahre alt."},
+  {de:"die Tochter",sk:"dcéra",cat:"rodina",gender:"die",ex:"Ihre Tochter heißt Anna."},
+  {de:"der Mann",sk:"manžel",cat:"rodina",gender:"der",ex:"Ihr Mann arbeitet in Berlin."},
+  {de:"die Frau",sk:"manželka",cat:"rodina",gender:"die",ex:"Meine Frau heißt Katarina."},
+  {de:"das Kind",sk:"dieťa",cat:"rodina",gender:"das",ex:"Das Kind schläft."},
+  {de:"die Eltern",sk:"rodičia",cat:"rodina",gender:"pl",ex:"Meine Eltern wohnen in Bratislava."},
+  {de:"der Großvater",sk:"starý otec",cat:"rodina",gender:"der",ex:"Mein Großvater ist achtzig."},
+  {de:"die Großmutter",sk:"stará mama",cat:"rodina",gender:"die",ex:"Meine Großmutter kocht gut."},
+  {de:"der Onkel",sk:"strýko",cat:"rodina",gender:"der",ex:"Mein Onkel wohnt in Wien."},
+  {de:"die Tante",sk:"teta",cat:"rodina",gender:"die",ex:"Meine Tante heißt Eva."},
+  // FARBY
+  {de:"rot",sk:"červená",cat:"farby",ex:"Das Auto ist rot."},
+  {de:"blau",sk:"modrá",cat:"farby",ex:"Meine Augen sind blau."},
+  {de:"grün",sk:"zelená",cat:"farby",ex:"Das Gras ist grün."},
+  {de:"gelb",sk:"žltá",cat:"farby",ex:"Die Banane ist gelb."},
+  {de:"schwarz",sk:"čierna",cat:"farby",ex:"Die Katze ist schwarz."},
+  {de:"weiß",sk:"biela",cat:"farby",ex:"Der Schnee ist weiß."},
+  {de:"grau",sk:"šedá",cat:"farby",ex:"Das Wetter ist grau."},
+  {de:"braun",sk:"hnedá",cat:"farby",ex:"Mein Auto ist braun."},
+  {de:"orange",sk:"oranžová",cat:"farby",ex:"Die Orange ist orange."},
+  {de:"lila",sk:"fialová",cat:"farby",ex:"Die Blume ist lila."},
+  {de:"rosa",sk:"ružová",cat:"farby",ex:"Das Kleid ist rosa."},
+  {de:"türkis",sk:"tyrkysová",cat:"farby",ex:"Das Meer ist türkis."},
+  // DOMOV
+  {de:"das Haus",sk:"dom",cat:"domov",gender:"das",ex:"Wir wohnen in einem kleinen Haus."},
+  {de:"die Wohnung",sk:"byt",cat:"domov",gender:"die",ex:"Meine Wohnung ist groß."},
+  {de:"das Zimmer",sk:"izba",cat:"domov",gender:"das",ex:"Das Haus hat drei Zimmer."},
+  {de:"der Tisch",sk:"stôl",cat:"domov",gender:"der",ex:"Der Tisch ist neu."},
+  {de:"der Stuhl",sk:"stolička",cat:"domov",gender:"der",ex:"Ich sitze auf dem Stuhl."},
+  {de:"das Bett",sk:"posteľ",cat:"domov",gender:"das",ex:"Das Kind schläft im Bett."},
+  {de:"die Küche",sk:"kuchyňa",cat:"domov",gender:"die",ex:"Meine Mutter ist in der Küche."},
+  {de:"das Bad",sk:"kúpeľňa",cat:"domov",gender:"das",ex:"Das Bad ist klein."},
+  {de:"die Tür",sk:"dvere",cat:"domov",gender:"die",ex:"Die Tür ist offen."},
+  {de:"das Fenster",sk:"okno",cat:"domov",gender:"das",ex:"Das Fenster ist groß."},
+  {de:"das Sofa",sk:"pohovka",cat:"domov",gender:"das",ex:"Ich sitze auf dem Sofa."},
+  {de:"der Schrank",sk:"skriňa",cat:"domov",gender:"der",ex:"Die Kleider sind im Schrank."},
+  {de:"die Lampe",sk:"lampa",cat:"domov",gender:"die",ex:"Die Lampe ist neu."},
+  {de:"der Boden",sk:"podlaha",cat:"domov",gender:"der",ex:"Der Boden ist sauber."},
+  // JEDLO
+  {de:"das Brot",sk:"chlieb",cat:"jedlo",gender:"das",ex:"Das Brot ist frisch und billig."},
+  {de:"die Milch",sk:"mlieko",cat:"jedlo",gender:"die",ex:"Ich trinke jeden Morgen Milch."},
+  {de:"das Wasser",sk:"voda",cat:"jedlo",gender:"das",ex:"Das Wasser ist kalt."},
+  {de:"der Kaffee",sk:"káva",cat:"jedlo",gender:"der",ex:"Ich trinke jeden Morgen Kaffee."},
+  {de:"der Tee",sk:"čaj",cat:"jedlo",gender:"der",ex:"Möchtest du Tee oder Kaffee?"},
+  {de:"das Fleisch",sk:"mäso",cat:"jedlo",gender:"das",ex:"Ich esse gern Fleisch."},
+  {de:"das Gemüse",sk:"zelenina",cat:"jedlo",gender:"das",ex:"Das Gemüse ist frisch."},
+  {de:"die Frucht",sk:"ovocie",cat:"jedlo",gender:"die",ex:"Ich esse jeden Tag Frucht."},
+  {de:"der Apfel",sk:"jablko",cat:"jedlo",gender:"der",ex:"Der Apfel ist rot."},
+  {de:"die Banane",sk:"banán",cat:"jedlo",gender:"die",ex:"Die Banane ist gelb."},
+  {de:"das Ei",sk:"vajce",cat:"jedlo",gender:"das",ex:"Ich esse jeden Morgen ein Ei."},
+  {de:"der Käse",sk:"syr",cat:"jedlo",gender:"der",ex:"Ich esse gern Brot mit Käse."},
+  {de:"die Suppe",sk:"polievka",cat:"jedlo",gender:"die",ex:"Die Suppe ist warm und gut."},
+  {de:"das Bier",sk:"pivo",cat:"jedlo",gender:"das",ex:"Ein Bier bitte!"},
+  {de:"der Wein",sk:"víno",cat:"jedlo",gender:"der",ex:"Ein Glas Wein bitte."},
+  {de:"der Fisch",sk:"ryba",cat:"jedlo",gender:"der",ex:"Der Fisch ist frisch."},
+  {de:"das Salz",sk:"soľ",cat:"jedlo",gender:"das",ex:"Gib mir bitte das Salz."},
+  {de:"der Zucker",sk:"cukor",cat:"jedlo",gender:"der",ex:"Möchtest du Zucker im Kaffee?"},
+  // OBLEČENIE
+  {de:"das Hemd",sk:"košeľa",cat:"oblecenie",gender:"das",ex:"Das Hemd ist blau."},
+  {de:"die Hose",sk:"nohavice",cat:"oblecenie",gender:"die",ex:"Ich kaufe eine neue Hose."},
+  {de:"der Rock",sk:"sukňa",cat:"oblecenie",gender:"der",ex:"Sie trägt einen roten Rock."},
+  {de:"das Kleid",sk:"šaty",cat:"oblecenie",gender:"das",ex:"Das Kleid ist rosa."},
+  {de:"der Mantel",sk:"kabát",cat:"oblecenie",gender:"der",ex:"Der Mantel ist warm."},
+  {de:"die Jacke",sk:"bunda",cat:"oblecenie",gender:"die",ex:"Ich kaufe eine Jacke im Geschäft."},
+  {de:"der Schuh",sk:"topánka",cat:"oblecenie",gender:"der",ex:"Meine Schuhe sind neu."},
+  {de:"die Mütze",sk:"čiapka",cat:"oblecenie",gender:"die",ex:"Die Mütze ist warm."},
+  {de:"die Socke",sk:"ponožka",cat:"oblecenie",gender:"die",ex:"Wo sind meine Socken?"},
+  {de:"der Pullover",sk:"sveter",cat:"oblecenie",gender:"der",ex:"Der Pullover ist weich."},
+  {de:"die Handschuhe",sk:"rukavice",cat:"oblecenie",gender:"pl",ex:"Im Winter brauche ich Handschuhe."},
+  // POVOLANIA
+  {de:"der Arzt",sk:"lekár",cat:"povolania",gender:"der",ex:"Mein Vater ist Arzt."},
+  {de:"die Ärztin",sk:"lekárka",cat:"povolania",gender:"die",ex:"Die Ärztin ist sehr nett."},
+  {de:"der Lehrer",sk:"učiteľ",cat:"povolania",gender:"der",ex:"Mein Lehrer spricht gut Englisch."},
+  {de:"die Lehrerin",sk:"učiteľka",cat:"povolania",gender:"die",ex:"Die Lehrerin ist streng."},
+  {de:"der Student",sk:"študent",cat:"povolania",gender:"der",ex:"Er ist Student in Wien."},
+  {de:"die Studentin",sk:"študentka",cat:"povolania",gender:"die",ex:"Sie ist Studentin."},
+  {de:"der Ingenieur",sk:"inžinier",cat:"povolania",gender:"der",ex:"Er arbeitet als Ingenieur."},
+  {de:"der Koch",sk:"kuchár",cat:"povolania",gender:"der",ex:"Der Koch kocht sehr gut."},
+  {de:"der Verkäufer",sk:"predavač",cat:"povolania",gender:"der",ex:"Der Verkäufer ist freundlich."},
+  {de:"der Fahrer",sk:"vodič",cat:"povolania",gender:"der",ex:"Der Fahrer fährt schnell."},
+  {de:"der Polizist",sk:"policajt",cat:"povolania",gender:"der",ex:"Der Polizist hilft mir."},
+  {de:"die Sekretärin",sk:"sekretárka",cat:"povolania",gender:"die",ex:"Die Sekretärin ist fleißig."},
+  // DOPRAVA
+  {de:"das Auto",sk:"auto",cat:"doprava",gender:"das",ex:"Mein Auto ist braun."},
+  {de:"der Bus",sk:"autobus",cat:"doprava",gender:"der",ex:"Ich fahre mit dem Bus."},
+  {de:"der Zug",sk:"vlak",cat:"doprava",gender:"der",ex:"Der Zug fährt um 8 Uhr ab."},
+  {de:"das Flugzeug",sk:"lietadlo",cat:"doprava",gender:"das",ex:"Das Flugzeug fliegt um 10 Uhr."},
+  {de:"das Fahrrad",sk:"bicykel",cat:"doprava",gender:"das",ex:"Ich fahre mit dem Fahrrad zur Arbeit."},
+  {de:"die Straße",sk:"ulica",cat:"doprava",gender:"die",ex:"Die Straße ist sehr lang."},
+  {de:"der Bahnhof",sk:"stanica",cat:"doprava",gender:"der",ex:"Wo ist der Bahnhof?"},
+  {de:"der Flughafen",sk:"letisko",cat:"doprava",gender:"der",ex:"Der Flughafen ist groß."},
+  {de:"die U-Bahn",sk:"metro",cat:"doprava",gender:"die",ex:"Ich fahre mit der U-Bahn."},
+  {de:"das Taxi",sk:"taxík",cat:"doprava",gender:"das",ex:"Ich nehme ein Taxi."},
+  {de:"der Weg",sk:"cesta",cat:"doprava",gender:"der",ex:"Der Weg ist kurz."},
+  // ČAS
+  {de:"die Uhr",sk:"hodiny",cat:"cas",gender:"die",ex:"Wie viel Uhr ist es?"},
+  {de:"heute",sk:"dnes",cat:"cas",ex:"Heute lerne ich Deutsch."},
+  {de:"morgen",sk:"zajtra",cat:"cas",ex:"Morgen fahre ich nach Wien."},
+  {de:"gestern",sk:"včera",cat:"cas",ex:"Gestern war ich müde."},
+  {de:"jetzt",sk:"teraz",cat:"cas",ex:"Ich lerne jetzt Deutsch."},
+  {de:"früh",sk:"skoro",cat:"cas",ex:"Ich stehe früh auf."},
+  {de:"spät",sk:"neskoro",cat:"cas",ex:"Es ist sehr spät."},
+  {de:"Montag",sk:"pondelok",cat:"cas",ex:"Montag beginnt die Woche."},
+  {de:"Dienstag",sk:"utorok",cat:"cas",ex:"Am Dienstag habe ich Deutsch."},
+  {de:"Mittwoch",sk:"streda",cat:"cas",ex:"Mittwoch ist Wochenmitte."},
+  {de:"Donnerstag",sk:"štvrtok",cat:"cas",ex:"Am Donnerstag gehe ich einkaufen."},
+  {de:"Freitag",sk:"piatok",cat:"cas",ex:"Freitag ist mein Lieblingstag."},
+  {de:"Samstag",sk:"sobota",cat:"cas",ex:"Am Samstag schlafe ich lange."},
+  {de:"Sonntag",sk:"nedeľa",cat:"cas",ex:"Sonntag ist Ruhetag."},
+  {de:"Januar",sk:"január",cat:"cas",ex:"Im Januar ist es kalt."},
+  {de:"Februar",sk:"február",cat:"cas",ex:"Februar ist kurz."},
+  {de:"März",sk:"marec",cat:"cas",ex:"Im März beginnt der Frühling."},
+  {de:"April",sk:"apríl",cat:"cas",ex:"April, April!"},
+  {de:"Mai",sk:"máj",cat:"cas",ex:"Im Mai blühen die Blumen."},
+  {de:"Juni",sk:"jún",cat:"cas",ex:"Im Juni ist Sommer."},
+  {de:"Juli",sk:"júl",cat:"cas",ex:"Juli ist der wärmste Monat."},
+  {de:"August",sk:"august",cat:"cas",ex:"Im August fahren wir in Urlaub."},
+  {de:"September",sk:"september",cat:"cas",ex:"Im September beginnt die Schule."},
+  {de:"Oktober",sk:"október",cat:"cas",ex:"Im Oktober ist es kalt."},
+  {de:"November",sk:"november",cat:"cas",ex:"November ist grau."},
+  {de:"Dezember",sk:"december",cat:"cas",ex:"Im Dezember ist Weihnachten."},
+  {de:"die Woche",sk:"týždeň",cat:"cas",gender:"die",ex:"Ich lerne jede Woche Deutsch."},
+  {de:"der Monat",sk:"mesiac",cat:"cas",gender:"der",ex:"Ein Monat hat dreißig Tage."},
+  {de:"das Jahr",sk:"rok",cat:"cas",gender:"das",ex:"Ein Jahr hat zwölf Monate."},
+  // PRÍDAVNÉ MENÁ
+  {de:"groß",sk:"veľký",cat:"adjektiva",ex:"Das Haus ist groß."},
+  {de:"klein",sk:"malý",cat:"adjektiva",ex:"Die Wohnung ist klein."},
+  {de:"alt",sk:"starý",cat:"adjektiva",ex:"Das Auto ist alt."},
+  {de:"neu",sk:"nový",cat:"adjektiva",ex:"Der Tisch ist neu."},
+  {de:"gut",sk:"dobrý",cat:"adjektiva",ex:"Die Suppe ist gut."},
+  {de:"schlecht",sk:"zlý",cat:"adjektiva",ex:"Das Wetter ist schlecht."},
+  {de:"schön",sk:"pekný",cat:"adjektiva",ex:"Die Frau ist sehr schön."},
+  {de:"hässlich",sk:"škaredý",cat:"adjektiva",ex:"Das Bild ist hässlich."},
+  {de:"schnell",sk:"rýchly",cat:"adjektiva",ex:"Der Zug ist sehr schnell."},
+  {de:"langsam",sk:"pomalý",cat:"adjektiva",ex:"Das Auto fährt langsam."},
+  {de:"teuer",sk:"drahý",cat:"adjektiva",ex:"Das Kleid ist teuer."},
+  {de:"billig",sk:"lacný",cat:"adjektiva",ex:"Das Brot ist billig."},
+  {de:"kalt",sk:"studený",cat:"adjektiva",ex:"Das Wasser ist kalt."},
+  {de:"warm",sk:"teplý",cat:"adjektiva",ex:"Die Suppe ist warm."},
+  {de:"jung",sk:"mladý",cat:"adjektiva",ex:"Sie ist sehr jung."},
+  {de:"frisch",sk:"čerstvý",cat:"adjektiva",ex:"Das Brot ist frisch."},
+  {de:"müde",sk:"unavený",cat:"adjektiva",ex:"Ich bin sehr müde."},
+  {de:"glücklich",sk:"šťastný",cat:"adjektiva",ex:"Ich bin sehr glücklich."},
+  {de:"traurig",sk:"smutný",cat:"adjektiva",ex:"Das Kind ist traurig."},
+  {de:"interessant",sk:"zaujímavý",cat:"adjektiva",ex:"Das Buch ist interessant."},
+  // SLOVESÁ
+  {de:"sein",sk:"byť",cat:"slovesa",ex:"Ich bin Student.",verb:true},
+  {de:"haben",sk:"mať",cat:"slovesa",ex:"Ich habe einen Bruder.",verb:true},
+  {de:"machen",sk:"robiť",cat:"slovesa",ex:"Was machst du?",verb:true},
+  {de:"gehen",sk:"ísť",cat:"slovesa",ex:"Wir gehen heute ins Restaurant.",verb:true},
+  {de:"kommen",sk:"prísť",cat:"slovesa",ex:"Ich komme aus der Slowakei.",verb:true},
+  {de:"sprechen",sk:"hovoriť",cat:"slovesa",ex:"Sie spricht kein Deutsch.",verb:true},
+  {de:"essen",sk:"jesť",cat:"slovesa",ex:"Ich esse gern Brot mit Käse.",verb:true},
+  {de:"trinken",sk:"piť",cat:"slovesa",ex:"Ich trinke jeden Morgen Kaffee.",verb:true},
+  {de:"kaufen",sk:"kúpiť",cat:"slovesa",ex:"Ich kaufe eine Jacke im Geschäft.",verb:true},
+  {de:"wohnen",sk:"bývať",cat:"slovesa",ex:"Ich wohne in Bratislava.",verb:true},
+  {de:"arbeiten",sk:"pracovať",cat:"slovesa",ex:"Er arbeitet als Ingenieur.",verb:true},
+  {de:"lernen",sk:"učiť sa",cat:"slovesa",ex:"Ich lerne jeden Tag Deutsch.",verb:true},
+  {de:"schlafen",sk:"spať",cat:"slovesa",ex:"Das Kind schläft im Bett.",verb:true},
+  {de:"fahren",sk:"cestovať",cat:"slovesa",ex:"Ich fahre mit dem Zug nach Wien.",verb:true},
+  {de:"können",sk:"môcť",cat:"slovesa",ex:"Können Sie mir helfen?",verb:true},
+  {de:"möchten",sk:"chcieť",cat:"slovesa",ex:"Ich möchte Deutsch lernen.",verb:true},
+  {de:"müssen",sk:"musieť",cat:"slovesa",ex:"Ich muss jetzt gehen.",verb:true},
+  {de:"lesen",sk:"čítať",cat:"slovesa",ex:"Ich lese ein Buch.",verb:true},
+  {de:"schreiben",sk:"písať",cat:"slovesa",ex:"Ich schreibe einen Brief.",verb:true},
+  {de:"hören",sk:"počúvať",cat:"slovesa",ex:"Ich höre Musik.",verb:true},
+  {de:"sehen",sk:"vidieť",cat:"slovesa",ex:"Ich sehe den Film.",verb:true},
+  {de:"heißen",sk:"volať sa",cat:"slovesa",ex:"Ich heiße Pavol.",verb:true},
+  {de:"wissen",sk:"vedieť",cat:"slovesa",ex:"Ich weiß das nicht.",verb:true},
+  {de:"helfen",sk:"pomáhať",cat:"slovesa",ex:"Können Sie mir helfen?",verb:true}
+];
+
+const VERB_CONJUGATIONS = {
+  "sein": [["ich","bin"],["du","bist"],["er/sie/es","ist"],["wir","sind"],["ihr","seid"],["sie/Sie","sind"]],
+  "haben": [["ich","habe"],["du","hast"],["er/sie/es","hat"],["wir","haben"],["ihr","habt"],["sie/Sie","haben"]],
+  "machen": [["ich","mache"],["du","machst"],["er/sie/es","macht"],["wir","machen"],["ihr","macht"],["sie/Sie","machen"]],
+  "gehen": [["ich","gehe"],["du","gehst"],["er/sie/es","geht"],["wir","gehen"],["ihr","geht"],["sie/Sie","gehen"]],
+  "kommen": [["ich","komme"],["du","kommst"],["er/sie/es","kommt"],["wir","kommen"],["ihr","kommt"],["sie/Sie","kommen"]],
+  "sprechen": [["ich","spreche"],["du","sprichst"],["er/sie/es","spricht"],["wir","sprechen"],["ihr","sprecht"],["sie/Sie","sprechen"]],
+  "essen": [["ich","esse"],["du","isst"],["er/sie/es","isst"],["wir","essen"],["ihr","esst"],["sie/Sie","essen"]],
+  "trinken": [["ich","trinke"],["du","trinkst"],["er/sie/es","trinkt"],["wir","trinken"],["ihr","trinkt"],["sie/Sie","trinken"]],
+  "kaufen": [["ich","kaufe"],["du","kaufst"],["er/sie/es","kauft"],["wir","kaufen"],["ihr","kauft"],["sie/Sie","kaufen"]],
+  "wohnen": [["ich","wohne"],["du","wohnst"],["er/sie/es","wohnt"],["wir","wohnen"],["ihr","wohnt"],["sie/Sie","wohnen"]],
+  "arbeiten": [["ich","arbeite"],["du","arbeitest"],["er/sie/es","arbeitet"],["wir","arbeiten"],["ihr","arbeitet"],["sie/Sie","arbeiten"]],
+  "lernen": [["ich","lerne"],["du","lernst"],["er/sie/es","lernt"],["wir","lernen"],["ihr","lernt"],["sie/Sie","lernen"]],
+  "schlafen": [["ich","schlafe"],["du","schläfst"],["er/sie/es","schläft"],["wir","schlafen"],["ihr","schlaft"],["sie/Sie","schlafen"]],
+  "fahren": [["ich","fahre"],["du","fährst"],["er/sie/es","fährt"],["wir","fahren"],["ihr","fahrt"],["sie/Sie","fahren"]],
+  "lesen": [["ich","lese"],["du","liest"],["er/sie/es","liest"],["wir","lesen"],["ihr","lest"],["sie/Sie","lesen"]],
+  "schreiben": [["ich","schreibe"],["du","schreibst"],["er/sie/es","schreibt"],["wir","schreiben"],["ihr","schreibt"],["sie/Sie","schreiben"]],
+  "hören": [["ich","höre"],["du","hörst"],["er/sie/es","hört"],["wir","hören"],["ihr","hört"],["sie/Sie","hören"]],
+  "sehen": [["ich","sehe"],["du","siehst"],["er/sie/es","sieht"],["wir","sehen"],["ihr","seht"],["sie/Sie","sehen"]],
+  "heißen": [["ich","heiße"],["du","heißt"],["er/sie/es","heißt"],["wir","heißen"],["ihr","heißt"],["sie/Sie","heißen"]],
+  "helfen": [["ich","helfe"],["du","hilfst"],["er/sie/es","hilft"],["wir","helfen"],["ihr","helft"],["sie/Sie","helfen"]],
+  "können": [["ich","kann"],["du","kannst"],["er/sie/es","kann"],["wir","können"],["ihr","könnt"],["sie/Sie","können"]],
+  "möchten": [["ich","möchte"],["du","möchtest"],["er/sie/es","möchte"],["wir","möchten"],["ihr","möchtet"],["sie/Sie","möchten"]],
+  "müssen": [["ich","muss"],["du","musst"],["er/sie/es","muss"],["wir","müssen"],["ihr","müsst"],["sie/Sie","müssen"]],
+  "wissen": [["ich","weiß"],["du","weißt"],["er/sie/es","weiß"],["wir","wissen"],["ihr","wisst"],["sie/Sie","wissen"]]
+};
 </script>
-<script src="script.js"></script>
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-let slovicka = [];
-let nezodpovedane = [];
-let smer = "en-sk";
-let spravne = 0;
-let nespravne = 0;
+// ============================================================
+// SENTENCES & TIPS DATA
+// ============================================================
+const SENTENCES = [
+  {de:"Ich heiße Pavol und ich komme aus der Slowakei.",sk:"Volám sa Pavol a pochádzam zo Slovenska."},
+  {de:"Ich bin 28 Jahre alt.",sk:"Mám 28 rokov."},
+  {de:"Ich habe einen Bruder aber keine Schwester.",sk:"Mám brata, ale nemám sestru."},
+  {de:"Meine Augen sind blau.",sk:"Moje oči sú modré."},
+  {de:"Mein Auto ist braun.",sk:"Moje auto je hnedé."},
+  {de:"Ich wohne in Bratislava.",sk:"Bývam v Bratislave."},
+  {de:"Ich trinke jeden Morgen Kaffee.",sk:"Každé ráno pijem kávu."},
+  {de:"Der Zug fährt um 8 Uhr ab.",sk:"Vlak odchádza o 8 hodín."},
+  {de:"Ich möchte Deutsch lernen.",sk:"Chcem sa naučiť nemčinu."},
+  {de:"Das Brot ist frisch und billig.",sk:"Chlieb je čerstvý a lacný."},
+  {de:"Wo ist der Bahnhof?",sk:"Kde je stanica?"},
+  {de:"Ich kaufe eine Jacke im Geschäft.",sk:"Kupujem bundu v obchode."},
+  {de:"Meine Mutter kocht sehr gut.",sk:"Moja mama varí veľmi dobre."},
+  {de:"Das Kind schläft im Bett.",sk:"Dieťa spí v posteli."},
+  {de:"Wir gehen heute ins Restaurant.",sk:"Dnes ideme do reštaurácie."},
+  {de:"Er arbeitet als Ingenieur.",sk:"Pracuje ako inžinier."},
+  {de:"Die Straße ist sehr lang.",sk:"Ulica je veľmi dlhá."},
+  {de:"Ich esse gern Brot mit Käse.",sk:"Rád jem chlieb so syrom."},
+  {de:"Das Wasser ist kalt.",sk:"Voda je studená."},
+  {de:"Können Sie mir helfen?",sk:"Môžete mi pomôcť?"},
+  {de:"Ich fahre mit dem Zug nach Wien.",sk:"Cestujem vlakom do Viedne."},
+  {de:"Sie spricht kein Deutsch.",sk:"Nehovorí po nemecky."},
+  {de:"Das Haus hat drei Zimmer.",sk:"Dom má tri izby."},
+  {de:"Ich lerne jeden Tag Deutsch.",sk:"Každý deň sa učím nemčinu."},
+  {de:"Guten Morgen! Wie geht es Ihnen?",sk:"Dobré ráno! Ako sa máte?"},
+  {de:"Das Flugzeug fliegt um 10 Uhr.",sk:"Lietadlo letí o 10 hodín."},
+  {de:"Mein Vater ist Arzt.",sk:"Môj otec je lekár."},
+  {de:"Die Suppe ist warm und gut.",sk:"Polievka je teplá a dobrá."},
+  {de:"Ich habe keine Zeit.",sk:"Nemám čas."},
+  {de:"Wir wohnen in einem kleinen Haus.",sk:"Bývame v malом dome."},
+  // Extra sentences – articles, negation, verb conjugation
+  {de:"Er hat keinen Bruder.",sk:"Nemá brata."},
+  {de:"Das Kind schreibt einen Brief.",sk:"Dieťa píše list."},
+  {de:"Ich kaufe einen neuen Tisch.",sk:"Kupujem nový stôl."},
+  {de:"Meine Mutter hat keine Zeit.",sk:"Moja mama nemá čas."},
+  {de:"Du hast ein schönes Haus.",sk:"Máš pekný dom."},
+  {de:"Wir fahren mit dem Zug.",sk:"Ideme vlakom."},
+  {de:"Das ist kein Apfel.",sk:"To nie je jablko."},
+  {de:"Sie liest ein interessantes Buch.",sk:"Číta zaujímavú knihu."},
+  {de:"Ich gehe in die Küche.",sk:"Idem do kuchyne."},
+  {de:"Er arbeitet nicht heute.",sk:"Dnes nepracuje."}
+];
 
-// zmena smeru
-document.querySelectorAll('input[name="smer"]').forEach(radio => {
-  radio.addEventListener("change", e => smer = e.target.value);
-});
+const FILL_SENTENCES = [
+  {template:"Ich ___ (sein) Student.",answer:"bin",hint:"sein → ich bin"},
+  {template:"Er ___ (haben) einen Bruder.",answer:"hat",hint:"haben → er hat"},
+  {template:"Wir ___ (wohnen) in Bratislava.",answer:"wohnen",hint:"wohnen → wir wohnen"},
+  {template:"Das Kind ___ (schlafen) im Bett.",answer:"schläft",hint:"schlafen → es schläft"},
+  {template:"Sie ___ (sprechen) kein Deutsch.",answer:"spricht",hint:"sprechen → sie spricht"},
+  {template:"Ich ___ (möchten) Kaffee.",answer:"möchte",hint:"möchten → ich möchte"},
+  {template:"Der Zug ___ (fahren) um 8 Uhr.",answer:"fährt",hint:"fahren → er fährt"},
+  {template:"Wir ___ (gehen) ins Restaurant.",answer:"gehen",hint:"gehen → wir gehen"},
+  {template:"Du ___ (sein) sehr jung.",answer:"bist",hint:"sein → du bist"},
+  {template:"Ich ___ (lesen) ein Buch.",answer:"lese",hint:"lesen → ich lese"}
+];
 
-// dynamicky vyplnit dropdown lekcii, podla existencie suborov
-async function initLekcie() {
-  const select = document.getElementById("lektionSelect");
-  select.innerHTML = "";
+const TIPS = [
+  "V nemčine má každé podstatné meno rod: der (mužský), die (ženský), das (stredný).",
+  "Sloveso 'sein' (byť): ich bin, du bist, er/sie/es ist, wir sind, ihr seid, sie sind.",
+  "Sloveso 'haben' (mať): ich habe, du hast, er hat, wir haben, ihr habt, sie haben.",
+  "Otázka v nemčine: sloveso ide na prvé miesto. Sprechen Sie Deutsch?",
+  "Oznamovacia veta: podmет + sloveso + zvyšok. Ich lerne Deutsch.",
+  "Článok 'der' sa mení v akuzatíve na 'den': Ich sehe den Mann.",
+  "Zápor s podst. menom: kein/keine. Ich habe keine Zeit.",
+  "Modálne sloveso 'können' (môcť): ich kann, du kannst, er kann.",
+  "Množné číslo nemá pevné pravidlo – treba sa učiť naspamäť.",
+  "Privlastňovacie zámeno 'mein' sa skloňuje ako článok.",
+  "Nemecké podstatné mená sa píšu vždy s veľkým písmenom.",
+  "Der, die, das – tri rody. Die Eltern, die Kinder (množné číslo = die).",
+  "Infinitív slovesa je vždy na konci vety s modálnym slovesom: Ich kann Deutsch sprechen.",
+  "Prídavné meno po 'ist' sa nesklonňuje: Das Auto ist schnell.",
+  "'Möchten' je zdvorilejšia forma chcenia ako 'wollen'.",
+  "Čas v nemčine: Es ist drei Uhr. Es ist halb vier (3:30). Es ist Viertel nach drei (3:15).",
+  "Predložka 'mit' vyžaduje datív: Ich fahre mit dem Bus.",
+  "Predložka 'in' s datívom pre miesto: Ich bin in der Küche.",
+  "Predložka 'in' s akuzatívom pre pohyb: Ich gehe in die Küche.",
+  "Zvratné sloveso: Ich heiße Pavol. (nielen 'volám sa', ale aj 'menuje sa')",
+  "Trennbare Verben – odlučiteľné predpony: abfahren → Der Zug fährt ab.",
+  "Perfektum sa tvorí: haben/sein + Partizip II. Ich habe gegessen.",
+  "Partizip II pravidelných slovies: ge- + kmeň + -t. Machen → gemacht.",
+  "Nepravidelné slovesá treba učiť naspamäť: fahren, fuhr, gefahren.",
+  "Číslovky 21-99: einundzwanzig (jedon-a-dvadsať) – najprv jednotky, potom desiatky.",
+  "Zdvorilostná forma: Sie (veľké S) = vykanie. Sprechen Sie Deutsch?",
+  "Nemecký slovosled vo vedľajšej vete: sloveso ide na koniec. ...weil ich müde bin.",
+  "Prídavné meno pred podstatným menom sa skloňuje: ein großes Haus.",
+  "Der Akkusativ: priamy objekt. Ich kaufe einen Tisch (der → einen).",
+  "Zoznam učenia: 10 nových slov denne = 300 slov za mesiac = dobrá základná A1 slovná zásoba!"
+];
 
-  for (let i = 1; i <= 10; i++) {
-    // najprv skús hlavný súbor (napr. lekcia1.txt)
-    const baseFile = `lekcia${i}.txt`;
-    let foundAny = false;
+// ============================================================
+// STATE
+// ============================================================
+let state = {
+  xp: 0,
+  streak: 0,
+  lastDate: null,
+  dailyWindows: [false,false,false],
+  wordProgress: {},
+  quizStats: {correct:0,total:0},
+  achievements: {},
+  weeklyXP: [0,0,0,0,0,0,0],
+  cardsReviewed: 0,
+  timerIntervals: [null,null,null],
+  timerSeconds: [300,300,300],
+  timerStarted: [false,false,false]
+};
 
-    try {
-      const resp = await fetch(baseFile, { method: 'HEAD' });
-      if (resp.ok) {
-        const opt = document.createElement("option");
-        opt.value = baseFile;
-        opt.textContent = `Lekcia ${i}`;
-        select.appendChild(opt);
-        foundAny = true;
+function saveState(){
+  localStorage.setItem('deutsch_xp', state.xp);
+  localStorage.setItem('deutsch_streak', state.streak);
+  localStorage.setItem('deutsch_last_date', state.lastDate);
+  localStorage.setItem('deutsch_daily_windows', JSON.stringify(state.dailyWindows));
+  localStorage.setItem('deutsch_word_progress', JSON.stringify(state.wordProgress));
+  localStorage.setItem('deutsch_quiz_stats', JSON.stringify(state.quizStats));
+  localStorage.setItem('deutsch_achievements', JSON.stringify(state.achievements));
+  localStorage.setItem('deutsch_weekly_xp', JSON.stringify(state.weeklyXP));
+  localStorage.setItem('deutsch_cards_reviewed', state.cardsReviewed);
+}
+
+function loadState(){
+  state.xp = parseInt(localStorage.getItem('deutsch_xp')) || 0;
+  state.streak = parseInt(localStorage.getItem('deutsch_streak')) || 0;
+  state.lastDate = localStorage.getItem('deutsch_last_date') || null;
+  state.dailyWindows = JSON.parse(localStorage.getItem('deutsch_daily_windows') || '[false,false,false]');
+  state.wordProgress = JSON.parse(localStorage.getItem('deutsch_word_progress') || '{}');
+  state.quizStats = JSON.parse(localStorage.getItem('deutsch_quiz_stats') || '{"correct":0,"total":0}');
+  state.achievements = JSON.parse(localStorage.getItem('deutsch_achievements') || '{}');
+  state.weeklyXP = JSON.parse(localStorage.getItem('deutsch_weekly_xp') || '[0,0,0,0,0,0,0]');
+  state.cardsReviewed = parseInt(localStorage.getItem('deutsch_cards_reviewed')) || 0;
+}
+
+function checkDailyReset(){
+  const today = new Date().toDateString();
+  if(state.lastDate !== today){
+    // Check streak
+    if(state.lastDate){
+      const last = new Date(state.lastDate);
+      const diff = (new Date() - last) / (1000*60*60*24);
+      if(diff >= 1 && diff < 2){
+        // Yesterday - streak continues if all done
+        if(state.dailyWindows.every(x=>x)) state.streak++;
+        else state.streak = 0;
+      } else if(diff >= 2){
+        state.streak = 0;
       }
-    } catch (e) { /* súbor neexistuje */ }
+    }
+    state.dailyWindows = [false,false,false];
+    state.lastDate = today;
+    // Shift weekly XP
+    const day = new Date().getDay(); // 0=sun
+    state.weeklyXP[day === 0 ? 6 : day-1] = 0;
+    saveState();
+  }
+}
 
-    // teraz skús podlekcie typu lekcia1.1.txt, lekcia1.2.txt, ...
-    for (let j = 1; j <= 5; j++) {
-      const subFile = `lekcia${i}.${j}.txt`;
-      try {
-        const resp = await fetch(subFile, { method: 'HEAD' });
-        if (resp.ok) {
-          const opt = document.createElement("option");
-          opt.value = subFile;
-          opt.textContent = `Lekcia ${i}.${j}`;
-          select.appendChild(opt);
-          foundAny = true;
-        }
-      } catch (e) { /* súbor neexistuje */ }
+function addXP(amount){
+  state.xp += amount;
+  const today = new Date().getDay();
+  const idx = today === 0 ? 6 : today - 1;
+  state.weeklyXP[idx] = (state.weeklyXP[idx] || 0) + amount;
+  saveState();
+  updateXPDisplay();
+  checkAchievements();
+}
+
+function updateXPDisplay(){
+  const level = Math.floor(state.xp / 50) + 1;
+  const xpInLevel = state.xp % 50;
+  const levelNames = ["Začiatočník","Učíaci sa","Pokročilý začiatočník","A1 Takmer","A1 Hotovo"];
+  const levelName = levelNames[Math.min(level-1, levelNames.length-1)];
+  const nextLevelName = levelNames[Math.min(level, levelNames.length-1)];
+  document.getElementById('sidebarXP').textContent = state.xp + ' XP';
+  document.getElementById('sidebarXPFill').style.width = (xpInLevel*2) + '%';
+  const $=id=>document.getElementById(id);
+  if($('statXP'))         $('statXP').textContent = state.xp;
+  if($('statLevel'))      $('statLevel').textContent = level;
+  if($('statStreak'))     $('statStreak').textContent = state.streak;
+  if($('levelLabel'))     $('levelLabel').textContent = levelName;
+  if($('levelSubLabel'))  $('levelSubLabel').textContent = 'Level '+level+' z '+levelNames.length+(level<levelNames.length?' → '+nextLevelName:'');
+  if($('levelXPBig'))     $('levelXPBig').textContent = state.xp;
+  if($('xpProgress'))     $('xpProgress').textContent = xpInLevel + ' / 50 XP';
+  if($('xpProgressFill')) $('xpProgressFill').style.width = (xpInLevel*2) + '%';
+}
+
+const ACHIEVEMENTS_DEF = [
+  {id:'streak3',label:'🔥 3-dňový streak',check:()=>state.streak>=3},
+  {id:'words50',label:'📚 50 slovíčok',check:()=>Object.keys(state.wordProgress).filter(k=>state.wordProgress[k]>0).length>=50},
+  {id:'firstWrite',label:'✏️ Prvá písomná',check:()=>state.quizStats.total>=1},
+  {id:'perfectQuiz',label:'🏆 Perfektný kvíz',check:()=>state.achievements.perfectQuiz},
+  {id:'xp100',label:'⭐ 100 XP',check:()=>state.xp>=100}
+];
+
+function checkAchievements(){
+  let changed = false;
+  ACHIEVEMENTS_DEF.forEach(a=>{
+    if(!state.achievements[a.id] && a.check()){
+      state.achievements[a.id] = true;
+      changed = true;
+      showToast('🏆 Nový odznak: ' + a.label);
+    }
+  });
+  if(changed){ saveState(); renderAchievements(); }
+}
+
+function showToast(msg){
+  const t = document.createElement('div');
+  t.style.cssText='position:fixed;bottom:24px;right:24px;background:#1a1a2e;color:#fff;padding:14px 20px;border-radius:12px;font-weight:700;font-size:.9rem;z-index:9999;animation:fadeIn .3s ease;box-shadow:0 4px 20px #0000003a';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 3000);
+}
+</script>
+<script>
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('#sidebar nav a').forEach(a=>a.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  document.querySelector('[data-sec="'+id+'"]').classList.add('active');
+  if(window.innerWidth<=768) closeSidebar();
+  // Init sections on first visit
+  if(id==='karticky') initFlashcards();
+  if(id==='pokrok') renderPokrok();
+  if(id==='gramatika') renderGramatika();
+  if(id==='situacie') renderSituacie();
+}
+
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+// ============================================================
+// MÔJ DEŇ
+// ============================================================
+function renderMojDen(){
+  // Streak
+  document.getElementById('streakVal').textContent = state.streak;
+  // Daily XP
+  const doneCount = state.dailyWindows.filter(x=>x).length;
+  const dailyXP = doneCount + (doneCount===3?2:0);
+  document.getElementById('dailyXPval').textContent = dailyXP + ' / 5';
+  // Windows
+  for(let i=1;i<=3;i++){
+    const done = state.dailyWindows[i-1];
+    const card = document.getElementById('win'+i);
+    if(done){
+      card.classList.add('done');
+      document.getElementById('doneLabel'+i).style.display='inline';
+      document.getElementById('doneBtn'+i).style.display='none';
     }
   }
+  if(state.dailyWindows.every(x=>x)){
+    document.getElementById('allDoneMsg').style.display='block';
+  }
+  // Week dots
+  renderWeekDots();
+  // Tip
+  const tipIdx = Math.floor(new Date().getDate() % TIPS.length);
+  document.getElementById('tipText').textContent = TIPS[tipIdx];
+}
 
-  if (select.options.length === 0) {
-    const opt = document.createElement("option");
-    opt.textContent = "Žiadna lekcia nenájdená";
-    opt.disabled = true;
-    select.appendChild(opt);
+function renderWeekDots(){
+  const days = ['Po','Ut','St','Šv','Pi','So','Ne'];
+  const today = new Date().getDay();
+  const todayIdx = today === 0 ? 6 : today - 1;
+  const wrap = document.getElementById('weekDots');
+  wrap.innerHTML = '';
+  days.forEach((d,i)=>{
+    const dot = document.createElement('div');
+    dot.className = 'week-dot' + (state.weeklyXP[i]>0?' done':'') + (i===todayIdx?' today':'');
+    dot.textContent = d;
+    wrap.appendChild(dot);
+  });
+}
+
+function startTimer(n){
+  if(state.dailyWindows[n-1]) return;
+  if(state.timerIntervals[n-1]) return;
+  state.timerStarted[n-1] = true;
+  document.getElementById('doneBtn'+n).style.display='inline-block';
+  const timer = document.getElementById('timer'+n);
+  timer.classList.add('running');
+  state.timerIntervals[n-1] = setInterval(()=>{
+    state.timerSeconds[n-1]--;
+    if(state.timerSeconds[n-1]<=0){
+      clearInterval(state.timerIntervals[n-1]);
+      state.timerIntervals[n-1]=null;
+      state.timerSeconds[n-1]=0;
+      timer.textContent='0:00';
+      markDone(n);
+      return;
+    }
+    const m = Math.floor(state.timerSeconds[n-1]/60);
+    const s = state.timerSeconds[n-1]%60;
+    timer.textContent = m+':'+(s<10?'0':'')+s;
+  },1000);
+}
+
+function markDone(n){
+  if(state.dailyWindows[n-1]) return;
+  if(state.timerIntervals[n-1]){
+    clearInterval(state.timerIntervals[n-1]);
+    state.timerIntervals[n-1]=null;
+  }
+  state.dailyWindows[n-1]=true;
+  addXP(1);
+  const card = document.getElementById('win'+n);
+  card.classList.add('done');
+  document.getElementById('doneBtn'+n).style.display='none';
+  document.getElementById('doneLabel'+n).style.display='inline';
+  document.getElementById('timer'+n).textContent='✓';
+  document.getElementById('timer'+n).classList.remove('running');
+  // Check if all done
+  const doneCount = state.dailyWindows.filter(x=>x).length;
+  document.getElementById('dailyXPval').textContent = (doneCount+(doneCount===3?2:0)) + ' / 5';
+  if(state.dailyWindows.every(x=>x)){
+    addXP(2); // Bonus
+    document.getElementById('allDoneMsg').style.display='block';
+    launchConfetti();
+    showToast('🎉 Skvelá práca! +5 XP celkovo dnes!');
+    if(!state.streak || state.lastDate !== new Date().toDateString()){
+      state.streak++;
+    }
+  }
+  saveState();
+  checkAchievements();
+}
+
+// ============================================================
+// CONFETTI
+// ============================================================
+function launchConfetti(){
+  const colors=['#6c63ff','#ff6b35','#22c55e','#f59e0b','#ec4899','#3b82f6'];
+  for(let i=0;i<80;i++){
+    const p = document.createElement('div');
+    p.className='confetti-piece';
+    p.style.left=Math.random()*100+'vw';
+    p.style.top='-20px';
+    p.style.background=colors[Math.floor(Math.random()*colors.length)];
+    p.style.animationDelay=Math.random()*1.5+'s';
+    p.style.transform='rotate('+Math.random()*360+'deg)';
+    p.style.width=(8+Math.random()*8)+'px';
+    p.style.height=(8+Math.random()*8)+'px';
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),3000);
   }
 }
 
+// ============================================================
+// SLOVNÍK
+// ============================================================
+let vocabCat = 'all';
+let vocabSearch = '';
+let vocabStarred = {};
 
-// start testu
-async function startQuiz() {
-  const lekcia = document.getElementById("lektionSelect").value;
-  const response = await fetch(lekcia);
-  const text = await response.text();
-  slovicka = text.split("\n").map(r => {
-    const [en, sk] = r.trim().split("//").map(s => s.trim());
-    return { en, sk };
-  }).filter(x => x.en && x.sk);
-
-  nezodpovedane = [...slovicka];
-  spravne = 0;
-  nespravne = 0;
-
-  document.getElementById("loader").classList.add("d-none");
-  document.getElementById("quiz").classList.remove("d-none");
-  novaOtazka();
-  window.scrollTo(0, 0);
+function renderVocab(){
+  const list = document.getElementById('vocabList');
+  let words = VOCAB;
+  if(vocabCat !== 'all') words = words.filter(w=>w.cat===vocabCat);
+  if(vocabSearch) words = words.filter(w=>
+    w.de.toLowerCase().includes(vocabSearch.toLowerCase()) ||
+    w.sk.toLowerCase().includes(vocabSearch.toLowerCase())
+  );
+  list.innerHTML = '';
+  words.forEach((w,i)=>{
+    const idx = VOCAB.indexOf(w);
+    const learned = state.wordProgress[idx] > 0;
+    const starred = vocabStarred[idx];
+    const item = document.createElement('div');
+    item.className='vocab-item'+(learned?' learned':'')+(starred?' starred':'');
+    item.onclick=()=>showVocabDetail(idx);
+    let gBadge='';
+    if(w.gender) gBadge=`<span class="badge badge-${w.gender}">${w.gender}</span>`;
+    item.innerHTML=`
+      <button class="star-btn" onclick="event.stopPropagation();toggleStar(${idx})">${starred?'⭐':'☆'}</button>
+      <div class="de">${w.de}${gBadge}</div>
+      <div class="sk">${w.sk}</div>
+      ${w.ex?`<div class="example">${w.ex}</div>`:''}
+    `;
+    list.appendChild(item);
+  });
 }
 
-function novaOtazka() {
-  if (nezodpovedane.length === 0) {
-    document.getElementById("quiz").innerHTML = `
-      <h2 class="mb-3 text-center">Hotovo! 🎉</h2>
-      <p class="fs-5 text-center">Správne odpovede: <b>${spravne}</b></p>
-      <p class="fs-5 text-center">Nesprávne odpovede: <b>${nespravne}</b></p>
-      <button class="btn btn-primary w-100 mt-3" onclick="goHome()">Domov</button>
-    `;
-    window.scrollTo(0, 0);
+function setVocabCat(cat, el){
+  vocabCat = cat;
+  document.querySelectorAll('#vocabTabs .tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderVocab();
+}
+
+function filterVocab(){
+  vocabSearch = document.getElementById('vocabSearch').value;
+  renderVocab();
+}
+
+function toggleStar(idx){
+  vocabStarred[idx] = !vocabStarred[idx];
+  renderVocab();
+}
+
+function showVocabDetail(idx){
+  const w = VOCAB[idx];
+  let gBadge='';
+  if(w.gender) gBadge=`<span class="badge badge-${w.gender}">${w.gender}</span>`;
+  let conjHtml='';
+  if(w.verb && VERB_CONJUGATIONS[w.de]){
+    const conj = VERB_CONJUGATIONS[w.de];
+    conjHtml=`<h4 style="margin-bottom:8px;color:var(--accent)">Časovanie</h4>
+    <table class="gram-table conj-table" style="margin-bottom:0">
+      ${conj.map(([pro,form])=>`<tr><td style="color:var(--text-muted)">${pro}</td><td><strong>${form}</strong></td></tr>`).join('')}
+    </table>`;
+  }
+  document.getElementById('vocabModalContent').innerHTML=`
+    <div class="vocab-detail-word">${w.de}${gBadge}</div>
+    <div class="vocab-detail-sk">${w.sk}</div>
+    ${w.ex?`<div class="vocab-detail-ex">"${w.ex}"</div>`:''}
+    ${conjHtml}
+    <div style="margin-top:16px;display:flex;gap:10px">
+      <button class="btn btn-success btn-sm" onclick="markLearned(${idx})">✓ Naučil som sa</button>
+      <button class="btn btn-outline btn-sm" onclick="closeVocabModal()">Zavrieť</button>
+    </div>
+  `;
+  document.getElementById('vocabModal').classList.add('open');
+}
+
+function markLearned(idx){
+  state.wordProgress[idx] = (state.wordProgress[idx]||0) + 1;
+  saveState();
+  closeVocabModal();
+  renderVocab();
+  checkAchievements();
+  showToast('✓ Slovíčko označené ako naučené!');
+}
+
+function closeVocabModal(){
+  document.getElementById('vocabModal').classList.remove('open');
+}
+</script>
+<script>
+// ============================================================
+// FLASHCARDS
+// ============================================================
+let fcMode = 'A';
+let fcDeck = [];
+let fcIdx = 0;
+let fcCorrect = 0;
+let fcWrong = 0;
+let fcFlipped = false;
+// Spaced repetition: wrong cards weight
+let fcWeights = {};
+
+function setFCMode(m){
+  fcMode = m;
+  document.querySelectorAll('[id^="fcMode"]').forEach(b=>b.classList.remove('btn-primary'));
+  document.querySelectorAll('[id^="fcMode"]').forEach(b=>b.classList.add('btn-outline'));
+  document.getElementById('fcMode'+m).classList.remove('btn-outline');
+  document.getElementById('fcMode'+m).classList.add('btn-primary');
+  initFlashcards();
+}
+
+function initFlashcards(){
+  const cat = document.getElementById('fcCatFilter').value;
+  let words = cat==='all' ? VOCAB : VOCAB.filter(w=>w.cat===cat);
+  // Filter for mode C: only words with gender
+  if(fcMode==='C') words = words.filter(w=>w.gender && ['der','die','das'].includes(w.gender));
+  // Spaced repetition weighting
+  fcDeck = [];
+  words.forEach((w,i)=>{
+    const globalIdx = VOCAB.indexOf(w);
+    const weight = (fcWeights[globalIdx]||0) + 1;
+    for(let j=0;j<weight;j++) fcDeck.push(globalIdx);
+  });
+  shuffleArray(fcDeck);
+  fcIdx = 0; fcCorrect = 0; fcWrong = 0; fcFlipped = false;
+  showFCCard();
+}
+
+function shuffleCards(){
+  shuffleArray(fcDeck);
+  fcIdx = 0; fcFlipped = false;
+  showFCCard();
+}
+
+function shuffleArray(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+}
+
+function showFCCard(){
+  if(!fcDeck.length){ return; }
+  const idx = fcDeck[fcIdx % fcDeck.length];
+  const w = VOCAB[idx];
+  const card = document.getElementById('flashcard');
+  card.classList.remove('flipped');
+  fcFlipped = false;
+
+  let front='', frontHint='', back='', backHint='';
+  if(fcMode==='A'){
+    front = w.sk; frontHint='Ako sa povie po nemecky?';
+    back = w.de; backHint = w.gender ? w.gender : (w.ex||'');
+    document.getElementById('fcModeLabel').textContent='SK → DE';
+    document.getElementById('fcModeLabelBack').textContent='DE';
+  } else if(fcMode==='B'){
+    front = w.de; frontHint = w.gender||'';
+    back = w.sk; backHint = w.ex||'';
+    document.getElementById('fcModeLabel').textContent='DE → SK';
+    document.getElementById('fcModeLabelBack').textContent='SK';
+  } else {
+    // Mode C: show word without article
+    const bare = w.de.replace(/^(der|die|das)\s/,'');
+    front = '___ ' + bare; frontHint='der / die / das ?';
+    back = w.de; backHint = w.sk;
+    document.getElementById('fcModeLabel').textContent='Článok';
+    document.getElementById('fcModeLabelBack').textContent='Odpoveď';
+  }
+  document.getElementById('fcFront').textContent = front;
+  document.getElementById('fcFrontHint').textContent = frontHint;
+  document.getElementById('fcBack').textContent = back;
+  document.getElementById('fcBackHint').textContent = backHint;
+
+  // Show/hide mode-appropriate controls
+  const isC = fcMode==='C';
+  document.getElementById('fcABControls').style.display = isC ? 'none' : 'flex';
+  document.getElementById('fcCControls').style.display  = isC ? 'block' : 'none';
+  document.getElementById('fcFlipHint').style.display   = isC ? 'none' : 'block';
+  if(isC){
+    document.getElementById('fcCResult').textContent='';
+    // Disable card click-to-flip in Mode C
+    document.getElementById('flashcard').onclick = null;
+  } else {
+    document.getElementById('flashcard').onclick = flipCard;
+  }
+
+  document.getElementById('fcScore').innerHTML = `Karta ${(fcIdx%fcDeck.length)+1} / ${Math.min(fcDeck.length,VOCAB.length)} &nbsp;|&nbsp; ✓ ${fcCorrect} &nbsp;|&nbsp; ✗ ${fcWrong}`;
+}
+
+function flipCard(){
+  const card = document.getElementById('flashcard');
+  fcFlipped = !fcFlipped;
+  card.classList.toggle('flipped', fcFlipped);
+}
+
+function fcAnswer(correct){
+  const idx = fcDeck[fcIdx % fcDeck.length];
+  if(correct){
+    fcCorrect++;
+    fcWeights[idx] = Math.max(0,(fcWeights[idx]||0)-1);
+  } else {
+    fcWrong++;
+    fcWeights[idx] = (fcWeights[idx]||0) + 2;
+    state.wordProgress[idx] = Math.max(0,(state.wordProgress[idx]||0)-1);
+  }
+  if(correct){
+    state.wordProgress[idx] = (state.wordProgress[idx]||0)+1;
+    state.cardsReviewed++;
+    localStorage.setItem('deutsch_cards_reviewed', state.cardsReviewed);
+  }
+  saveState();
+  fcIdx++;
+  if(fcIdx >= fcDeck.length){
+    initFlashcards();
+    showToast('🔄 Kolo skončilo! ✓'+fcCorrect+' ✗'+fcWrong+'. Začínam znova...');
+    fcCorrect=0; fcWrong=0;
     return;
   }
+  showFCCard();
+  checkAchievements();
+}
 
-  const otazka = nezodpovedane[Math.floor(Math.random() * nezodpovedane.length)];
-  let realSmer = smer === "mix" ? (Math.random() < 0.5 ? "en-sk" : "sk-en") : smer;
-
-  let questionText, correctAnswer, allAnswers;
-  if (realSmer === "en-sk") {
-    questionText = `Prelož: ${otazka.en}`;
-    correctAnswer = otazka.sk;
-    allAnswers = slovicka.map(s => s.sk);
+// Mode C – answer by clicking der/die/das directly (no flip needed)
+function answerModeC(chosen){
+  const idx = fcDeck[fcIdx % fcDeck.length];
+  const w = VOCAB[idx];
+  const correct = w.gender;
+  const resultEl = document.getElementById('fcCResult');
+  // Disable all 3 buttons temporarily
+  document.querySelectorAll('#fcCControls .btn').forEach(b=>b.disabled=true);
+  if(chosen===correct){
+    resultEl.innerHTML='<span style="color:var(--green)">✓ Správne! '+w.de+'</span>';
+    fcCorrect++;
+    fcWeights[idx] = Math.max(0,(fcWeights[idx]||0)-1);
+    state.wordProgress[idx] = (state.wordProgress[idx]||0)+1;
+    state.cardsReviewed++;
+    localStorage.setItem('deutsch_cards_reviewed',state.cardsReviewed);
   } else {
-    questionText = `Prelož: ${otazka.sk}`;
-    correctAnswer = otazka.en;
-    allAnswers = slovicka.map(s => s.en);
+    resultEl.innerHTML='<span style="color:var(--red)">✗ Nesprávne. Správne: <strong>'+correct+'</strong> '+w.de+'</span>';
+    fcWrong++;
+    fcWeights[idx] = (fcWeights[idx]||0)+2;
+    state.wordProgress[idx] = Math.max(0,(state.wordProgress[idx]||0)-1);
   }
+  saveState();
+  // Flip card to show answer briefly, then advance
+  const card = document.getElementById('flashcard');
+  card.classList.add('flipped');
+  setTimeout(()=>{
+    document.querySelectorAll('#fcCControls .btn').forEach(b=>b.disabled=false);
+    fcIdx++;
+    if(fcIdx>=fcDeck.length){
+      initFlashcards();
+      showToast('🔄 Kolo skončilo! ✓'+fcCorrect+' ✗'+fcWrong+'. Začínam znova...');
+      fcCorrect=0; fcWrong=0;
+      return;
+    }
+    showFCCard();
+    checkAchievements();
+  }, 1200);
+}
 
-  document.getElementById("question").innerText = questionText;
+// ============================================================
+// KVÍZ
+// ============================================================
+// ============================================================
+// QUIZ FILL-SENTENCE DATA (Type 3 – Doplň vetu)
+// ============================================================
+const QUIZ_FILL_SENTENCES = [
+  {q:'Ich habe ___ Bruder.',        opts:['ein','einen','eine','keinen'], correct:'einen',      exp:'Bruder = der → Akkuzatív → einen'},
+  {q:'Ich habe ___ Schwester.',     opts:['keine','kein','keinen','eine'], correct:'keine',      exp:'Schwester = die → keine Schwester'},
+  {q:'Das ist ___ Auto.',           opts:['ein','einen','eine','kein'],   correct:'ein',        exp:'Auto = das → ein Auto'},
+  {q:'Ich trinke ___ Kaffee.',      opts:['ein','einen','eine','kein'],   correct:'einen',      exp:'Kaffee = der → Akkuzatív → einen'},
+  {q:'Sie hat ___ Kind.',           opts:['ein','einen','eine','kein'],   correct:'ein',        exp:'Kind = das → ein Kind'},
+  {q:'Ich habe ___ Zeit.',          opts:['keine','kein','keinen','eine'],correct:'keine',      exp:'Zeit = die → keine Zeit'},
+  {q:'Er kauft ___ Jacke.',         opts:['ein','einen','eine','keine'],  correct:'eine',       exp:'Jacke = die → eine Jacke'},
+  {q:'Wir haben ___ Haus.',         opts:['ein','einen','eine','kein'],   correct:'ein',        exp:'Haus = das → ein Haus'},
+  {q:'Ich sehe ___ Mann.',          opts:['ein','einen','der','dem'],     correct:'einen',      exp:'Mann = der → Akkuzatív → einen Mann'},
+  {q:'Hast du ___ Fragen?',         opts:['keine','kein','keinen','ein'], correct:'keine',      exp:'Fragen = množné číslo → keine Fragen'},
+  {q:'Er hat ___ Auto.',            opts:['kein','keinen','keine','ein'], correct:'kein',       exp:'Auto = das → kein Auto'},
+  {q:'Ich kaufe ___ Brot.',         opts:['ein','einen','eine','kein'],   correct:'ein',        exp:'Brot = das → ein Brot'},
+  {q:'Ich fahre mit ___ Bus.',      opts:['den','dem','der','einem'],     correct:'dem',        exp:'Bus = der → Datív → mit dem Bus'},
+  {q:'Das Buch gehört ___ Mutter.', opts:['der','die','den','das'],       correct:'der',        exp:'Mutter = die → Datív → der Mutter'},
+  {q:'Ich gehe in ___ Küche.',      opts:['die','der','dem','das'],       correct:'die',        exp:'Küche = die → Akkuzatív pohyb → in die Küche'},
+  {q:'Er wohnt in ___ Haus.',       opts:['den','dem','das','die'],       correct:'dem',        exp:'Haus = das → Datív miesto → in dem Haus'},
+  {q:'Ich sehe ___ Frau.',          opts:['ein','eine','einen','keinen'], correct:'eine',       exp:'Frau = die → Akkuzatív → eine Frau'},
+  {q:'Sie spricht ___ Deutsch.',    opts:['kein','keinen','keine','nicht'],correct:'kein',      exp:'Deutsch (das) → kein Deutsch'},
+  {q:'Möchtest du ___ Tee?',        opts:['ein','einen','eine','kein'],   correct:'einen',      exp:'Tee = der → Akkuzatív → einen Tee'},
+  {q:'Ich habe ___ Hunger.',        opts:['kein','keinen','keine','ein'], correct:'keinen',     exp:'Hunger = der → Akkuzatív → keinen Hunger'},
+];
 
-  let moznosti = [correctAnswer];
-  while (moznosti.length < 4 && allAnswers.length >= 4) {
-    const nahodne = allAnswers[Math.floor(Math.random() * allAnswers.length)];
-    if (!moznosti.includes(nahodne)) moznosti.push(nahodne);
+let quizType='translation';
+let quizQs=[];
+let quizIdx=0;
+let quizScore=0;
+let quizAnswered=false;
+let lastQuizType='translation';
+let selectedQuizType='translation';
+
+const QUIZ_TYPE_META = {
+  translation:{emoji:'🔤',title:'Preklad',desc:'Slovenské slovo → vyber správny nemecký preklad zo 4 možností'},
+  article:    {emoji:'📌',title:'Člen (Artikel)',desc:'Nemecké podstatné meno → vyber správny člen: der / die / das'},
+  sentence:   {emoji:'📝',title:'Doplň vetu',desc:'Veta s prázdnym miestom → vyber správny tvar (člen/zápor/predložka)'},
+  mixed:      {emoji:'🎲',title:'Zmiešaný',desc:'Náhodná kombinácia všetkých troch typov otázok'},
+};
+
+function selectQuizType(type, el){
+  selectedQuizType = type;
+  document.querySelectorAll('.quiz-type-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const meta = QUIZ_TYPE_META[type];
+  document.getElementById('quizStartEmoji').textContent = meta.emoji;
+  document.getElementById('quizStartTitle').textContent = meta.title;
+  document.getElementById('quizStartDesc').textContent  = meta.desc;
+  // If quiz is running → reset back to start screen with new type
+  if(document.getElementById('quizGame').style.display!=='none'
+  || document.getElementById('quizResult').style.display!=='none'){
+    backToQuizStart();
   }
-  moznosti = moznosti.sort(() => Math.random() - 0.5);
+}
 
-  const optionsDiv = document.getElementById("options");
-  optionsDiv.innerHTML = "";
-  moznosti.forEach(moz => {
-    const btn = document.createElement("button");
-    btn.textContent = moz;
-    btn.className = "btn btn-outline-dark btn-option";
-    btn.onclick = () => {
-      if (moz === correctAnswer) {
-        btn.classList.add("correct");
-        spravne++;
-        nezodpovedane = nezodpovedane.filter(s => s !== otazka);
-        setTimeout(() => { novaOtazka(); window.scrollTo(0, 0); }, 700);
-      } else {
-        btn.classList.add("wrong");
-        nespravne++;
-      }
-    };
-    optionsDiv.appendChild(btn);
+function backToQuizStart(){
+  document.getElementById('quizStart').style.display='block';
+  document.getElementById('quizGame').style.display='none';
+  document.getElementById('quizResult').style.display='none';
+}
+
+function startQuiz(type){
+  quizType=type; lastQuizType=type;
+  document.getElementById('quizStart').style.display='none';
+  document.getElementById('quizGame').style.display='block';
+  document.getElementById('quizResult').style.display='none';
+  quizQs = generateQuizQuestions(type, 10);
+  quizIdx=0; quizScore=0; quizAnswered=false;
+  showQuizQ();
+}
+
+function generateQuizQuestions(type, count){
+  const pool = VOCAB.filter(w=>w.cat!=='cisla');
+  const genderPool = pool.filter(w=>w.gender&&['der','die','das'].includes(w.gender));
+  const qs=[];
+  const shuffled=[...pool].sort(()=>Math.random()-.5);
+  // For sentence type we don't iterate over vocab words, just fill count questions
+  if(type==='sentence'){
+    const used=new Set();
+    while(qs.length<count){
+      let idx=Math.floor(Math.random()*QUIZ_FILL_SENTENCES.length);
+      if(used.has(idx)&&used.size<QUIZ_FILL_SENTENCES.length) continue;
+      used.add(idx);
+      const fs=QUIZ_FILL_SENTENCES[idx];
+      qs.push({q:'Doplňte: „'+fs.q+'"',correct:fs.correct,opts:[...fs.opts].sort(()=>Math.random()-.5),type:'sentence',explanation:fs.exp});
+      if(used.size>=QUIZ_FILL_SENTENCES.length) break;
+    }
+    return qs;
+  }
+  for(let i=0;i<Math.min(count,shuffled.length);i++){
+    const w = shuffled[i];
+    let q;
+    const t = type==='mixed'
+      ? (['translation','translation','article','sentence'][Math.floor(Math.random()*4)])
+      : type;
+    if(t==='article'){
+      // Always find a word that has a gender – don't fall back
+      const gw=genderPool[Math.floor(Math.random()*genderPool.length)];
+      const bare=gw.de.replace(/^(der|die|das)\s/,'');
+      q={q:'Aký je článok? ___ '+bare,correct:gw.gender,opts:['der','die','das'],type:'article',explanation:gw.de+' ('+gw.sk+') → <strong>'+gw.gender+'</strong>'};
+    } else if(t==='sentence'){
+      const fs=QUIZ_FILL_SENTENCES[Math.floor(Math.random()*QUIZ_FILL_SENTENCES.length)];
+      q={q:'Doplňte: „'+fs.q+'"',correct:fs.correct,opts:[...fs.opts].sort(()=>Math.random()-.5),type:'sentence',explanation:fs.exp};
+    } else {
+      // translation (default)
+      const opts = getRandomOptions(pool,w,'sk',3);
+      q={q:'Čo znamená: „'+w.de+'"?',correct:w.sk,opts:[w.sk,...opts].sort(()=>Math.random()-.5),type:'translation',explanation:'„'+w.de+'" znamená „'+w.sk+'"'};
+    }
+    qs.push(q);
+  }
+  return qs;
+}
+
+function getRandomOptions(pool,word,field,n){
+  const others=pool.filter(w=>w[field]&&w[field]!==word[field]);
+  shuffleArray(others);
+  return others.slice(0,n).map(w=>w[field]);
+}
+
+function showQuizQ(){
+  if(quizIdx>=quizQs.length){ showQuizResult(); return; }
+  const q=quizQs[quizIdx];
+  quizAnswered=false;
+  document.getElementById('quizQNum').textContent=(quizIdx+1)+' / '+quizQs.length;
+  document.getElementById('quizPFill').style.width=((quizIdx+1)/quizQs.length*100)+'%';
+  document.getElementById('quizQuestion').textContent=q.q;
+  const qMeta=QUIZ_TYPE_META[quizType]||{emoji:'🎯',title:'Kvíz'};
+  document.getElementById('quizTypeLabel').textContent=qMeta.emoji+' '+qMeta.title;
+  const opts=document.getElementById('quizOptions');
+  opts.innerHTML='';
+  q.opts.forEach(opt=>{
+    const btn=document.createElement('button');
+    btn.className='quiz-opt';
+    btn.textContent=opt;
+    btn.onclick=()=>answerQuiz(opt,btn);
+    opts.appendChild(btn);
   });
-  window.scrollTo(0, 0);
+  document.getElementById('quizFeedback').style.display='none';
+  document.getElementById('quizNextBtn').style.display='none';
 }
 
-function goHome() {
-  document.getElementById("quiz").classList.add("d-none");
-  document.getElementById("loader").classList.remove("d-none");
-  slovicka = [];
-  nezodpovedane = [];
-  spravne = 0;
-  nespravne = 0;
-  document.getElementById("options").innerHTML = "";
-  document.getElementById("question").innerText = "";
-  window.scrollTo(0, 0);
+function answerQuiz(ans, btn){
+  if(quizAnswered) return;
+  quizAnswered=true;
+  const q=quizQs[quizIdx];
+  const correct=ans===q.correct;
+  document.querySelectorAll('.quiz-opt').forEach(b=>{
+    if(b.textContent===q.correct) b.classList.add('correct');
+    if(b===btn && !correct) b.classList.add('wrong');
+  });
+  const fb=document.getElementById('quizFeedback');
+  fb.className='quiz-feedback '+(correct?'correct':'wrong');
+  fb.style.display='block';
+  fb.textContent=correct?'✓ Správne! '+q.explanation:'✗ Nesprávne. '+q.explanation;
+  if(correct){quizScore++;addXP(1);}
+  state.quizStats.total++;
+  if(correct) state.quizStats.correct++;
+  saveState();
+  document.getElementById('quizNextBtn').style.display='block';
 }
 
-// inicializacia dropdownu
-initLekcie();
+function nextQuizQ(){
+  quizIdx++;
+  showQuizQ();
+}
 
+function showQuizResult(){
+  document.getElementById('quizGame').style.display='none';
+  document.getElementById('quizResult').style.display='block';
+  const pct=Math.round(quizScore/quizQs.length*100);
+  document.getElementById('quizResultScore').textContent=quizScore+'/'+quizQs.length;
+  document.getElementById('quizResultPct').textContent=pct+'%';
+  document.getElementById('quizResultEmoji').textContent=pct>=90?'🏆':pct>=70?'😊':pct>=50?'😐':'😢';
+  document.getElementById('quizResultTitle').textContent=pct>=90?'Výborne!':pct>=70?'Dobre!':pct>=50?'Ujde to':'Skús znova';
+  if(pct===100){ launchConfetti(); state.achievements.perfectQuiz=true; saveState(); checkAchievements(); }
+}
 
+function retryQuiz(){
+  document.getElementById('quizResult').style.display='none';
+  startQuiz(selectedQuizType);
+}
 </script>
-<script src="script.js"></script>
+<script>
+// ============================================================
+// PÍSANIE
+// ============================================================
+let pisTab = 'preloz';
+let poskladajteState = {};
+
+function setPisTab(tab, el){
+  pisTab = tab;
+  document.querySelectorAll('#sec-pisanie .tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('[id^="pisTab-"]').forEach(d=>d.style.display='none');
+  document.getElementById('pisTab-'+tab).style.display='block';
+}
+
+function renderPreloz(){
+  const container = document.getElementById('prelozList');
+  container.innerHTML='';
+  SENTENCES.slice(0,15).forEach((s,i)=>{
+    const div=document.createElement('div');
+    div.className='card writing-exercise';
+    div.innerHTML=`
+      <div class="prompt">Preložte do nemčiny:</div>
+      <div class="hint" style="font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:12px">${s.sk}</div>
+      <textarea class="writing-input" id="preloz${i}" rows="2" placeholder="Napíšte nemecký preklad..." style="resize:vertical"></textarea>
+      <div style="display:flex;gap:10px;margin-top:10px">
+        <button class="btn btn-primary btn-sm" onclick="checkPreloz(${i})">✓ Skontrolovať</button>
+        <button class="btn btn-outline btn-sm" onclick="showPrelozHint(${i})">💡 Nápoveda</button>
+      </div>
+      <div class="writing-result" id="prelozResult${i}"></div>
+      <div id="prelozHint${i}" style="display:none;margin-top:8px;font-size:.85rem;color:var(--text-muted);font-style:italic">✓ ${s.de}</div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function checkPreloz(i){
+  const input=document.getElementById('preloz'+i).value.trim();
+  const correct=SENTENCES[i].de;
+  const res=document.getElementById('prelozResult'+i);
+  if(!input){res.innerHTML='<span style="color:var(--red)">Napíšte odpoveď!</span>';return;}
+  const inputWords=input.toLowerCase().split(/\s+/);
+  const correctWords=correct.toLowerCase().replace(/[?!.,]/g,'').split(/\s+/);
+  let html='';
+  correctWords.forEach((cw,j)=>{
+    const iw=(inputWords[j]||'').replace(/[?!.,]/g,'');
+    html+=`<span class="w-word ${iw===cw?'ok':'bad'}">${cw}</span> `;
+  });
+  const pct=correctWords.filter((cw,j)=>(inputWords[j]||'').replace(/[?!.,]/g,'')=== cw).length/correctWords.length;
+  res.innerHTML=(pct===1?'<span class="w-correct">✓ Perfektné!</span> ':'<span style="color:var(--red)">Oprav chyby:</span> ')+html;
+  if(pct===1){ addXP(1); showToast('+1 XP za správny preklad!'); }
+}
+
+function showPrelozHint(i){
+  const h=document.getElementById('prelozHint'+i);
+  h.style.display=h.style.display==='none'?'block':'none';
+}
+
+function renderDoplnte(){
+  const container=document.getElementById('doplnteList');
+  container.innerHTML='';
+  FILL_SENTENCES.forEach((s,i)=>{
+    const parts=s.template.split('___');
+    const div=document.createElement('div');
+    div.className='card writing-exercise';
+    div.innerHTML=`
+      <div class="prompt" style="font-size:1.05rem;line-height:2">
+        ${parts[0]}<input type="text" class="gap-input" id="gap${i}" placeholder="...">${parts[1]}
+      </div>
+      <div style="font-size:.85rem;color:var(--text-muted);margin:6px 0">${s.hint}</div>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button class="btn btn-primary btn-sm" onclick="checkGap(${i})">✓ Skontrolovať</button>
+      </div>
+      <div class="writing-result" id="gapResult${i}"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function checkGap(i){
+  const input=document.getElementById('gap'+i).value.trim();
+  const correct=FILL_SENTENCES[i].answer;
+  const inp=document.getElementById('gap'+i);
+  const res=document.getElementById('gapResult'+i);
+  if(input.toLowerCase()===correct.toLowerCase()){
+    inp.classList.add('correct');
+    res.innerHTML='<span class="w-correct">✓ Správne!</span>';
+    addXP(1);
+    showToast('+1 XP!');
+  } else {
+    inp.classList.add('wrong');
+    res.innerHTML=`<span style="color:var(--red)">✗ Nesprávne. Správna odpoveď: <strong>${correct}</strong></span>`;
+  }
+}
+
+function renderPoskladajte(){
+  const container=document.getElementById('poskladajteList');
+  container.innerHTML='';
+  SENTENCES.slice(0,20).forEach((s,i)=>{
+    const words=s.de.replace(/[?!.,]/g,'').split(' ').filter(Boolean);
+    const shuffled=[...words].sort(()=>Math.random()-.5);
+    poskladajteState[i]={words,shuffled,placed:[],available:[...shuffled]};
+    const div=document.createElement('div');
+    div.className='card writing-exercise';
+    div.innerHTML=`
+      <div class="prompt">Poskladajte vetu:</div>
+      <div class="hint" style="font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:10px">🇸🇰 ${s.sk}</div>
+      <div class="drop-zone" id="dropZone${i}"><span style="color:#ccc;font-size:.85rem">Klikni na slová nižšie...</span></div>
+      <div class="chips-wrap" id="chipsWrap${i}"></div>
+      <div style="display:flex;gap:10px;margin-top:10px">
+        <button class="btn btn-primary btn-sm" onclick="checkPoskladajte(${i})">✓ Skontrolovať</button>
+        <button class="btn btn-outline btn-sm" onclick="resetPoskladajte(${i})">↺ Reset</button>
+      </div>
+      <div class="writing-result" id="posResult${i}" style="margin-top:8px"></div>
+    `;
+    container.appendChild(div);
+    renderPoskladajteChips(i);
+  });
+}
+
+function renderPoskladajteChips(i){
+  const st=poskladajteState[i];
+  const dz=document.getElementById('dropZone'+i);
+  const cw=document.getElementById('chipsWrap'+i);
+  dz.innerHTML='';
+  cw.innerHTML='';
+  if(st.placed.length){
+    st.placed.forEach((w,j)=>{
+      const chip=document.createElement('div');
+      chip.className='chip placed';
+      chip.textContent=w;
+      chip.onclick=()=>returnChip(i,j);
+      dz.appendChild(chip);
+    });
+  } else {
+    dz.innerHTML='<span style="color:#ccc;font-size:.85rem">Klikni na slová nižšie...</span>';
+  }
+  st.available.forEach((w,j)=>{
+    const chip=document.createElement('div');
+    chip.className='chip';
+    chip.textContent=w;
+    chip.onclick=()=>placeChip(i,j);
+    cw.appendChild(chip);
+  });
+}
+
+function placeChip(i,j){
+  const st=poskladajteState[i];
+  const word=st.available[j];
+  st.available.splice(j,1);
+  st.placed.push(word);
+  renderPoskladajteChips(i);
+}
+
+function returnChip(i,j){
+  const st=poskladajteState[i];
+  const word=st.placed[j];
+  st.placed.splice(j,1);
+  st.available.push(word);
+  renderPoskladajteChips(i);
+}
+
+function resetPoskladajte(i){
+  const st=poskladajteState[i];
+  st.available=[...st.shuffled];
+  st.placed=[];
+  renderPoskladajteChips(i);
+  document.getElementById('posResult'+i).innerHTML='';
+}
+
+function checkPoskladajte(i){
+  const st=poskladajteState[i];
+  const res=document.getElementById('posResult'+i);
+  if(!st.placed.length){res.innerHTML='<span style="color:var(--red)">Poskladaj vetu!</span>';return;}
+  let allOk=true;
+  const wordHtml = st.placed.map((w,j)=>{
+    const ok = st.words[j] && w.toLowerCase()===st.words[j].toLowerCase();
+    if(!ok) allOk=false;
+    return `<span class="w-word ${ok?'ok':'bad'}">${w}</span>`;
+  }).join(' ');
+  if(st.placed.length < st.words.length) allOk=false;
+  if(allOk){
+    res.innerHTML='<span class="w-correct">✓ Správne!</span> '+wordHtml;
+    addXP(1);
+    showToast('+1 XP za správnu vetu!');
+  } else {
+    res.innerHTML='<span style="color:var(--red)">✗ Oprav poradie:</span> '+wordHtml
+      +'<div style="margin-top:6px;font-size:.85rem;color:var(--text-muted)">Správne: <strong>'+st.words.join(' ')+'</strong></div>';
+  }
+}
+</script>
+<script>
+// ============================================================
+// GRAMATIKA
+// ============================================================
+const GRAM_CARDS = [
+  {
+    title:"1. Členy (Artikel) – der / die / das",
+    body:`
+    <p style="margin-bottom:12px">Nemecké podstatné mená majú tri rody. Členy sa menia podľa pádu:</p>
+    <h4 style="color:var(--accent);margin-bottom:8px">📌 Určitý článok (der / die / das)</h4>
+    <table class="gram-table">
+      <tr><th>Pád</th><th style="color:var(--der)">🔵 der – mužský</th><th style="color:var(--die)">🔴 die – ženský</th><th style="color:var(--das)">🟢 das – stredný</th><th style="color:#8b5cf6">🟣 die – množné</th></tr>
+      <tr><td><strong>Nominatív</strong> <span style="font-size:.75rem;color:var(--text-muted)">(kto/čo)</span></td><td style="font-weight:800;color:var(--der)">der</td><td style="font-weight:800;color:var(--die)">die</td><td style="font-weight:800;color:var(--das)">das</td><td style="font-weight:800;color:#8b5cf6">die</td></tr>
+      <tr><td><strong>Akuzatív</strong> <span style="font-size:.75rem;color:var(--text-muted)">(koho/čo)</span></td><td style="font-weight:800;color:var(--der)">den</td><td style="font-weight:800;color:var(--die)">die</td><td style="font-weight:800;color:var(--das)">das</td><td style="font-weight:800;color:#8b5cf6">die</td></tr>
+      <tr><td><strong>Datív</strong> <span style="font-size:.75rem;color:var(--text-muted)">(komu/čomu)</span></td><td style="font-weight:800;color:var(--der)">dem</td><td style="font-weight:800;color:var(--die)">der</td><td style="font-weight:800;color:var(--das)">dem</td><td style="font-weight:800;color:#8b5cf6">den</td></tr>
+    </table>
+    <h4 style="color:var(--accent);margin:14px 0 8px">📌 Neurčitý článok (ein / eine) + zápor (kein / keine)</h4>
+    <table class="gram-table">
+      <tr><th>Pád</th><th style="color:var(--der)">mužský</th><th style="color:var(--die)">ženský</th><th style="color:var(--das)">stredný</th><th style="color:#8b5cf6">zápor (m/f/n)</th></tr>
+      <tr><td><strong>Nominatív</strong></td><td>ein</td><td>eine</td><td>ein</td><td>kein / keine / kein</td></tr>
+      <tr><td><strong>Akuzatív</strong></td><td>einen</td><td>eine</td><td>ein</td><td>keinen / keine / kein</td></tr>
+      <tr><td><strong>Datív</strong></td><td>einem</td><td>einer</td><td>einem</td><td>keinem / keiner / keinem</td></tr>
+    </table>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+      <div style="flex:1;min-width:140px;padding:12px;background:#eff6ff;border-radius:10px;border-left:4px solid var(--der)">
+        <div style="font-size:.75rem;font-weight:800;color:var(--der);margin-bottom:5px">🔵 DER – mužský</div>
+        <div style="font-size:.9rem;font-weight:700">der <strong>Vater</strong>, der <strong>Mann</strong>, der <strong>Zug</strong></div>
+      </div>
+      <div style="flex:1;min-width:140px;padding:12px;background:#fdf2f8;border-radius:10px;border-left:4px solid var(--die)">
+        <div style="font-size:.75rem;font-weight:800;color:var(--die);margin-bottom:5px">🔴 DIE – ženský</div>
+        <div style="font-size:.9rem;font-weight:700">die <strong>Mutter</strong>, die <strong>Frau</strong>, die <strong>Tür</strong></div>
+      </div>
+      <div style="flex:1;min-width:140px;padding:12px;background:#f0fdf4;border-radius:10px;border-left:4px solid var(--das)">
+        <div style="font-size:.75rem;font-weight:800;color:var(--das);margin-bottom:5px">🟢 DAS – stredný</div>
+        <div style="font-size:.9rem;font-weight:700">das <strong>Kind</strong>, das <strong>Haus</strong>, das <strong>Auto</strong></div>
+      </div>
+    </div>
+    `
+  },
+  {
+    title:"2. Sloveso SEIN (byť)",
+    body:`
+    <table class="gram-table">
+      <tr><th>Osoba</th><th>Tvar</th><th>Príklad</th></tr>
+      <tr><td>ich</td><td><strong>bin</strong></td><td>Ich bin Student.</td></tr>
+      <tr><td>du</td><td><strong>bist</strong></td><td>Du bist jung.</td></tr>
+      <tr><td>er/sie/es</td><td><strong>ist</strong></td><td>Er ist Arzt.</td></tr>
+      <tr><td>wir</td><td><strong>sind</strong></td><td>Wir sind müde.</td></tr>
+      <tr><td>ihr</td><td><strong>seid</strong></td><td>Ihr seid nett.</td></tr>
+      <tr><td>sie/Sie</td><td><strong>sind</strong></td><td>Sie sind gut.</td></tr>
+    </table>
+    <div id="gramQuiz2" style="margin-top:16px"></div>
+    `
+  },
+  {
+    title:"3. Sloveso HABEN (mať)",
+    body:`
+    <table class="gram-table">
+      <tr><th>Osoba</th><th>Tvar</th><th>Príklad</th></tr>
+      <tr><td>ich</td><td><strong>habe</strong></td><td>Ich habe einen Bruder.</td></tr>
+      <tr><td>du</td><td><strong>hast</strong></td><td>Du hast ein Auto.</td></tr>
+      <tr><td>er/sie/es</td><td><strong>hat</strong></td><td>Er hat keine Zeit.</td></tr>
+      <tr><td>wir</td><td><strong>haben</strong></td><td>Wir haben Hunger.</td></tr>
+      <tr><td>ihr</td><td><strong>habt</strong></td><td>Ihr habt Glück.</td></tr>
+      <tr><td>sie/Sie</td><td><strong>haben</strong></td><td>Sie haben Kinder.</td></tr>
+    </table>
+    <div id="gramQuiz3" style="margin-top:16px"></div>
+    `
+  },
+  {
+    title:"4. Pravidelné slovesá – vzor MACHEN",
+    body:`
+    <p style="margin-bottom:8px">Kmeň + koncovka podľa osoby:</p>
+    <table class="gram-table">
+      <tr><th>Osoba</th><th>Koncovka</th><th>machen</th><th>lernen</th><th>wohnen</th></tr>
+      <tr><td>ich</td><td>-e</td><td>mache</td><td>lerne</td><td>wohne</td></tr>
+      <tr><td>du</td><td>-st</td><td>machst</td><td>lernst</td><td>wohnst</td></tr>
+      <tr><td>er/sie/es</td><td>-t</td><td>macht</td><td>lernt</td><td>wohnt</td></tr>
+      <tr><td>wir</td><td>-en</td><td>machen</td><td>lernen</td><td>wohnen</td></tr>
+      <tr><td>ihr</td><td>-t</td><td>macht</td><td>lernt</td><td>wohnt</td></tr>
+      <tr><td>sie/Sie</td><td>-en</td><td>machen</td><td>lernen</td><td>wohnen</td></tr>
+    </table>
+    `
+  },
+  {
+    title:"5. Nepravidelné slovesá",
+    body:`
+    <table class="gram-table">
+      <tr><th>Osoba</th><th>fahren</th><th>essen</th><th>sprechen</th><th>lesen</th></tr>
+      <tr><td>ich</td><td>fahre</td><td>esse</td><td>spreche</td><td>lese</td></tr>
+      <tr><td>du</td><td><strong>fährst</strong></td><td><strong>isst</strong></td><td><strong>sprichst</strong></td><td><strong>liest</strong></td></tr>
+      <tr><td>er/sie/es</td><td><strong>fährt</strong></td><td><strong>isst</strong></td><td><strong>spricht</strong></td><td><strong>liest</strong></td></tr>
+      <tr><td>wir</td><td>fahren</td><td>essen</td><td>sprechen</td><td>lesen</td></tr>
+      <tr><td>ihr</td><td>fahrt</td><td>esst</td><td>sprecht</td><td>lest</td></tr>
+      <tr><td>sie/Sie</td><td>fahren</td><td>essen</td><td>sprechen</td><td>lesen</td></tr>
+    </table>
+    <p style="margin-top:8px;font-size:.85rem;color:var(--text-muted)">Nepravidelné slovesá menia kmeňovú samohlásku v 2. a 3. osobe jednotného čísla.</p>
+    `
+  },
+  {
+    title:"6. Zápor – kein / keine",
+    body:`
+    <p style="margin-bottom:8px">Použitie: <strong>kein/keine</strong> pred podstatným menom (namiesto neurčitého článku)</p>
+    <table class="gram-table">
+      <tr><th>Rod</th><th>Kladná veta</th><th>Záporná veta</th></tr>
+      <tr><td><span class="badge badge-der">der</span></td><td>Ich habe <strong>einen</strong> Bruder.</td><td>Ich habe <strong>keinen</strong> Bruder.</td></tr>
+      <tr><td><span class="badge badge-die">die</span></td><td>Ich habe <strong>eine</strong> Schwester.</td><td>Ich habe <strong>keine</strong> Schwester.</td></tr>
+      <tr><td><span class="badge badge-das">das</span></td><td>Ich habe <strong>ein</strong> Auto.</td><td>Ich habe <strong>kein</strong> Auto.</td></tr>
+      <tr><td><span class="badge badge-pl">pl</span></td><td>Ich habe Kinder.</td><td>Ich habe <strong>keine</strong> Kinder.</td></tr>
+    </table>
+    <p style="margin-top:8px;font-size:.85rem;color:var(--text-muted)">Zápor slovesa: <strong>nicht</strong> – Ich fahre nicht. Das ist nicht gut.</p>
+    `
+  },
+  {
+    title:"7. Privlastňovacie zámená – mein / meine",
+    body:`
+    <table class="gram-table">
+      <tr><th>Rod</th><th>Nominatív</th><th>Akuzatív</th><th>Príklad</th></tr>
+      <tr><td><span class="badge badge-der">der</span></td><td>mein</td><td>meinen</td><td>Mein Vater ist Arzt.</td></tr>
+      <tr><td><span class="badge badge-die">die</span></td><td>meine</td><td>meine</td><td>Meine Mutter kocht gut.</td></tr>
+      <tr><td><span class="badge badge-das">das</span></td><td>mein</td><td>mein</td><td>Mein Auto ist braun.</td></tr>
+      <tr><td><span class="badge badge-pl">pl</span></td><td>meine</td><td>meine</td><td>Meine Eltern wohnen hier.</td></tr>
+    </table>
+    <p style="margin-top:8px;font-size:.85rem">dein/deine (tvoj), sein/seine (jeho), ihr/ihre (jej), unser/unsere (náš)</p>
+    `
+  },
+  {
+    title:"8. Slovosled – Wortstellung",
+    body:`
+    <div style="background:#f8f8ff;padding:16px;border-radius:10px;margin-bottom:12px">
+      <div style="font-weight:700;margin-bottom:8px;color:var(--accent)">Oznamovacia veta:</div>
+      <div style="font-size:1rem"><strong>Ich</strong> [podmět] + <strong>lerne</strong> [sloveso] + <strong>jeden Tag Deutsch</strong> [zvyšok]</div>
+    </div>
+    <div style="background:#fff8f0;padding:16px;border-radius:10px;margin-bottom:12px">
+      <div style="font-weight:700;margin-bottom:8px;color:var(--yellow)">Otázka (doplňovacia):</div>
+      <div style="font-size:1rem"><strong>Wo</strong> [opyt. výraz] + <strong>ist</strong> [sloveso] + <strong>der Bahnhof?</strong></div>
+    </div>
+    <div style="background:#f0fff4;padding:16px;border-radius:10px">
+      <div style="font-weight:700;margin-bottom:8px;color:var(--green)">Otázka (áno/nie):</div>
+      <div style="font-size:1rem"><strong>Sprechen</strong> [sloveso] + <strong>Sie</strong> [podmět] + <strong>Deutsch?</strong></div>
+    </div>
+    `
+  },
+  {
+    title:"9. Modálne slovesá – können / möchten / müssen",
+    body:`
+    <table class="gram-table">
+      <tr><th>Osoba</th><th>können</th><th>möchten</th><th>müssen</th></tr>
+      <tr><td>ich</td><td>kann</td><td>möchte</td><td>muss</td></tr>
+      <tr><td>du</td><td>kannst</td><td>möchtest</td><td>musst</td></tr>
+      <tr><td>er/sie/es</td><td>kann</td><td>möchte</td><td>muss</td></tr>
+      <tr><td>wir</td><td>können</td><td>möchten</td><td>müssen</td></tr>
+      <tr><td>ihr</td><td>könnt</td><td>möchtet</td><td>müsst</td></tr>
+      <tr><td>sie/Sie</td><td>können</td><td>möchten</td><td>müssen</td></tr>
+    </table>
+    <p style="margin-top:8px;font-size:.85rem;color:var(--text-muted)">Infinitív ide na koniec vety: Ich <strong>kann</strong> Deutsch <strong>sprechen</strong>.</p>
+    `
+  },
+  {
+    title:"10. Množné číslo – Plural",
+    body:`
+    <table class="gram-table">
+      <tr><th>Vzor</th><th>Jednotné číslo</th><th>Množné číslo</th></tr>
+      <tr><td>-e</td><td>der Tisch</td><td>die Tische</td></tr>
+      <tr><td>-er</td><td>das Kind</td><td>die Kinder</td></tr>
+      <tr><td>-en</td><td>die Frau</td><td>die Frauen</td></tr>
+      <tr><td>-s</td><td>das Auto</td><td>die Autos</td></tr>
+      <tr><td>Umlaut+e</td><td>der Stuhl</td><td>die Stühle</td></tr>
+      <tr><td>bez zmeny</td><td>das Zimmer</td><td>die Zimmer</td></tr>
+    </table>
+    <p style="margin-top:8px;font-size:.85rem;color:var(--text-muted)">Pozor: v nemčine treba množné číslo učiť spolu so slovom. Napr. das Haus → die Häuser</p>
+    `
+  }
+];
+
+function renderGramatika(){
+  const list=document.getElementById('gramList');
+  if(list.children.length>0) return;
+  GRAM_CARDS.forEach((g,i)=>{
+    const card=document.createElement('div');
+    card.className='gram-card';
+    card.innerHTML=`
+      <div class="gram-header" onclick="toggleGram(${i})">
+        <span>${g.title}</span>
+        <span id="gramArrow${i}">▼</span>
+      </div>
+      <div class="gram-body" id="gramBody${i}">
+        ${g.body}
+        <button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="startGramQuiz(${i})">🎯 Precvičiť</button>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+function toggleGram(i){
+  const body=document.getElementById('gramBody'+i);
+  const arrow=document.getElementById('gramArrow'+i);
+  body.classList.toggle('open');
+  arrow.textContent=body.classList.contains('open')?'▲':'▼';
+}
+
+// Card-specific grammar quiz questions [10 cards × 5 questions]
+const GRAM_QUIZZES = [
+  // 0 – Členy
+  [
+    {q:'Aký článok má podstatné meno „Bruder" (brat)?', opts:['der','die','das'], correct:'der', exp:'Bruder je mužský rod → <strong>der</strong> Bruder'},
+    {q:'Aký článok má podstatné meno „Mutter" (mama)?', opts:['der','die','das'], correct:'die', exp:'Mutter je ženský rod → <strong>die</strong> Mutter'},
+    {q:'Aký článok má podstatné meno „Kind" (dieťa)?', opts:['der','die','das'], correct:'das', exp:'Kind je stredný rod → <strong>das</strong> Kind'},
+    {q:'V akuzatíve: „Ich sehe ___ Mann."', opts:['der','den','dem'], correct:'den', exp:'der Mann → Akkuzatív → <strong>den</strong> Mann'},
+    {q:'V datíve: „Ich fahre mit ___ Bus."', opts:['der','den','dem'], correct:'dem', exp:'der Bus → Datív → mit <strong>dem</strong> Bus'},
+  ],
+  // 1 – Sein
+  [
+    {q:'Doplňte: „Ich ___ Student."', opts:['bin','bist','ist','sind'], correct:'bin', exp:'ich → <strong>bin</strong>'},
+    {q:'Doplňte: „Du ___ sehr nett."', opts:['bin','bist','ist','sind'], correct:'bist', exp:'du → <strong>bist</strong>'},
+    {q:'Doplňte: „Er ___ Arzt."', opts:['bin','bist','ist','sind'], correct:'ist', exp:'er/sie/es → <strong>ist</strong>'},
+    {q:'Doplňte: „Wir ___ müde."', opts:['ist','sind','seid','sein'], correct:'sind', exp:'wir → <strong>sind</strong>'},
+    {q:'Doplňte: „Ihr ___ jung."', opts:['sind','seid','ist','bin'], correct:'seid', exp:'ihr → <strong>seid</strong>'},
+  ],
+  // 2 – Haben
+  [
+    {q:'Doplňte: „Ich ___ einen Bruder."', opts:['habe','hast','hat','haben'], correct:'habe', exp:'ich → <strong>habe</strong>'},
+    {q:'Doplňte: „Du ___ ein Auto."', opts:['habe','hast','hat','haben'], correct:'hast', exp:'du → <strong>hast</strong>'},
+    {q:'Doplňte: „Er ___ keine Zeit."', opts:['habe','hast','hat','haben'], correct:'hat', exp:'er/sie/es → <strong>hat</strong>'},
+    {q:'Doplňte: „Wir ___ Hunger."', opts:['hat','haben','habt','hast'], correct:'haben', exp:'wir → <strong>haben</strong>'},
+    {q:'Doplňte: „Ihr ___ Glück."', opts:['haben','habt','hat','haste'], correct:'habt', exp:'ihr → <strong>habt</strong>'},
+  ],
+  // 3 – Pravidelné slovesá
+  [
+    {q:'Doplňte: „Ich ___ (lernen) Deutsch."', opts:['lerne','lernst','lernt','lernen'], correct:'lerne', exp:'ich lerne – koncovka <strong>-e</strong>'},
+    {q:'Doplňte: „Du ___ (wohnen) in Wien."', opts:['wohne','wohnst','wohnt','wohnen'], correct:'wohnst', exp:'du wohnst – koncovka <strong>-st</strong>'},
+    {q:'Doplňte: „Er ___ (machen) Hausaufgaben."', opts:['mache','machst','macht','machen'], correct:'macht', exp:'er macht – koncovka <strong>-t</strong>'},
+    {q:'Doplňte: „Wir ___ (kaufen) Brot."', opts:['kaufe','kaufst','kauft','kaufen'], correct:'kaufen', exp:'wir kaufen – koncovka <strong>-en</strong>'},
+    {q:'Doplňte: „Ihr ___ (hören) Musik."', opts:['höre','hörst','hört','hören'], correct:'hört', exp:'ihr hört – koncovka <strong>-t</strong>'},
+  ],
+  // 4 – Nepravidelné slovesá
+  [
+    {q:'Doplňte: „Du ___ (fahren) nach Wien."', opts:['fahrst','fährst','fahrt','fährt'], correct:'fährst', exp:'fahren: du <strong>fährst</strong> – zmena kmeňa a→ä'},
+    {q:'Doplňte: „Er ___ (essen) ein Brot."', opts:['esst','isst','esse','essen'], correct:'isst', exp:'essen: er <strong>isst</strong> – zmena e→i'},
+    {q:'Doplňte: „Sie ___ (sprechen) gut Deutsch."', opts:['sprechst','spricht','spreche','sprecht'], correct:'spricht', exp:'sprechen: sie <strong>spricht</strong> – zmena e→i'},
+    {q:'Doplňte: „Du ___ (lesen) die Zeitung."', opts:['lese','liest','lest','lesen'], correct:'liest', exp:'lesen: du <strong>liest</strong> – zmena e→ie'},
+    {q:'Doplňte: „Er ___ (schlafen) lange."', opts:['schlafe','schläfst','schläft','schlafen'], correct:'schläft', exp:'schlafen: er <strong>schläft</strong> – zmena a→ä'},
+  ],
+  // 5 – Kein/keine
+  [
+    {q:'„Žiadny brat" v akuzatíve: Ich habe ___ Bruder.', opts:['kein','keinen','keine','keinem'], correct:'keinen', exp:'Bruder = der → Akkuzatív → <strong>keinen</strong> Bruder'},
+    {q:'„Žiadna sestra": Ich habe ___ Schwester.', opts:['kein','keinen','keine','keiner'], correct:'keine', exp:'Schwester = die → <strong>keine</strong> Schwester'},
+    {q:'„Žiadne auto": Ich habe ___ Auto.', opts:['kein','keinen','keine','keinem'], correct:'kein', exp:'Auto = das → <strong>kein</strong> Auto'},
+    {q:'„Žiadne deti": Wir haben ___ Kinder.', opts:['keine','kein','keinen','keinem'], correct:'keine', exp:'Kinder = množné číslo → <strong>keine</strong> Kinder'},
+    {q:'„Nerozprávam nemecky": Sie spricht ___ Deutsch.', opts:['kein','keinen','keine','nicht'], correct:'kein', exp:'Deutsch (das) → <strong>kein</strong> Deutsch'},
+  ],
+  // 6 – Privlastňovacie zámená
+  [
+    {q:'„Môj otec": ___ Vater ist Arzt.', opts:['Mein','Meine','Meinen','Meinem'], correct:'Mein', exp:'Vater = der (Nom.) → <strong>mein</strong> Vater'},
+    {q:'„Moja mama": ___ Mutter kocht gut.', opts:['Mein','Meine','Meinen','Meinem'], correct:'Meine', exp:'Mutter = die (Nom.) → <strong>meine</strong> Mutter'},
+    {q:'„Moje auto": ___ Auto ist braun.', opts:['Mein','Meine','Meinen','Meinem'], correct:'Mein', exp:'Auto = das (Nom.) → <strong>mein</strong> Auto'},
+    {q:'„Môjho brata" (Akk.): Ich liebe ___ Bruder.', opts:['mein','meinen','meine','meinem'], correct:'meinen', exp:'Bruder = der → Akkuzatív → <strong>meinen</strong> Bruder'},
+    {q:'„Moji rodičia": ___ Eltern wohnen hier.', opts:['Mein','Meinen','Meine','Meinem'], correct:'Meine', exp:'Eltern = množné číslo → <strong>meine</strong> Eltern'},
+  ],
+  // 7 – Slovosled
+  [
+    {q:'Správny slovosled: (Ich / lerne / jeden Tag / Deutsch)', opts:['Ich lerne jeden Tag Deutsch.','Deutsch lerne ich jeden Tag.','Jeden Tag Deutsch lerne ich.'], correct:'Ich lerne jeden Tag Deutsch.', exp:'Oznamovacia veta: Podmět + Sloveso + Zvyšok'},
+    {q:'Otázka (áno/nie): (Deutsch / Sprechen / Sie)', opts:['Sprechen Sie Deutsch?','Sie sprechen Deutsch?','Deutsch sprechen Sie?'], correct:'Sprechen Sie Deutsch?', exp:'Otázka: Sloveso na 1. mieste'},
+    {q:'Doplňovacia otázka: (Wo / ist / der Bahnhof)', opts:['Wo ist der Bahnhof?','Der Bahnhof ist wo?','Ist wo der Bahnhof?'], correct:'Wo ist der Bahnhof?', exp:'Opyt. výraz + Sloveso + Podmět'},
+    {q:'Negácia: (Ich / heute / fahre / nicht)', opts:['Ich fahre heute nicht.','Nicht fahre ich heute.','Ich heute fahre nicht.'], correct:'Ich fahre heute nicht.', exp:'„nicht" zvyčajne na konci vety'},
+    {q:'Modálne sloveso: (Ich / Deutsch / kann / sprechen)', opts:['Ich kann Deutsch sprechen.','Ich sprechen kann Deutsch.','Kann ich Deutsch sprechen.'], correct:'Ich kann Deutsch sprechen.', exp:'Infinitív ide na koniec: kann … sprechen'},
+  ],
+  // 8 – Modálne slovesá
+  [
+    {q:'Doplňte: „Ich ___ Deutsch sprechen." (môžem)', opts:['kann','kannst','können','könnst'], correct:'kann', exp:'ich → <strong>kann</strong>'},
+    {q:'Doplňte: „Du ___ mir helfen." (musíš)', opts:['muss','musst','müssen','müsst'], correct:'musst', exp:'du → <strong>musst</strong>'},
+    {q:'Doplňte: „Er ___ nach Hause gehen." (chce)', opts:['möchte','möchtest','möchten','möchtet'], correct:'möchte', exp:'er/sie/es → <strong>möchte</strong>'},
+    {q:'Doplňte: „Wir ___ jetzt gehen." (musíme)', opts:['muss','musst','müssen','müsst'], correct:'müssen', exp:'wir → <strong>müssen</strong>'},
+    {q:'Kde ide infinitív? „Ich kann Deutsch ___"', opts:['sprechen','spricht','sprechst'], correct:'sprechen', exp:'Modálne sloveso + Infinitív na <strong>konci</strong> vety'},
+  ],
+  // 9 – Množné číslo
+  [
+    {q:'Množné číslo: der Tisch → ?', opts:['die Tische','die Tischen','die Tischs'], correct:'die Tische', exp:'der Tisch → die Tische (vzor <strong>-e</strong>)'},
+    {q:'Množné číslo: das Kind → ?', opts:['die Kinds','die Kinder','die Kinden'], correct:'die Kinder', exp:'das Kind → die Kinder (vzor <strong>-er</strong>)'},
+    {q:'Množné číslo: die Frau → ?', opts:['die Fraue','die Frauen','die Fraus'], correct:'die Frauen', exp:'die Frau → die Frauen (vzor <strong>-(e)n</strong>)'},
+    {q:'Množné číslo: das Auto → ?', opts:['die Autos','die Autoen','die Autoe'], correct:'die Autos', exp:'das Auto → die Autos (vzor <strong>-s</strong> – cudzie slová)'},
+    {q:'Množné číslo: das Zimmer → ?', opts:['die Zimmern','die Zimmer','die Zimmernen'], correct:'die Zimmer', exp:'das Zimmer → die Zimmer (<strong>bez zmeny</strong>)'},
+  ],
+];
+
+function startGramQuiz(i){
+  const qs = GRAM_QUIZZES[i];
+  if(!qs){ showToast('Mini kvíz pre túto kartu nie je k dispozícii.'); return; }
+  let html='<div style="margin-top:16px;padding:14px 16px;background:linear-gradient(135deg,#6c63ff22,#8b85ff11);border-radius:12px;border-left:4px solid var(--accent)"><strong style="color:var(--accent)">⚡ Mini kvíz – 5 otázok</strong></div>';
+  qs.forEach((qst,j)=>{
+    const optsHtml = qst.opts.map(o=>`<button class="btn btn-sm btn-outline gq-btn"
+      onclick="answerGramQ(${i},${j},this,'${o.replace(/'/g,"\\'").replace(/"/g,'&quot;')}','${qst.correct.replace(/'/g,"\\'").replace(/"/g,'&quot;')}','${qst.exp.replace(/'/g,"\\'").replace(/"/g,'&quot;')}')">${o}</button>`).join('');
+    html+=`<div style="margin:10px 0;padding:12px;background:#f8f9fa;border-radius:8px" id="gq_${i}_${j}">
+      <div style="font-weight:700;margin-bottom:8px;font-size:.92rem">${j+1}. ${qst.q}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">${optsHtml}</div>
+      <div id="gqRes_${i}_${j}" style="display:none;font-size:.85rem;margin-top:6px"></div>
+    </div>`;
+  });
+  const body=document.getElementById('gramBody'+i);
+  const existing=body.querySelector('.gram-mini-quiz');
+  if(existing) existing.remove();
+  const div=document.createElement('div');
+  div.className='gram-mini-quiz';
+  div.innerHTML=html;
+  body.appendChild(div);
+}
+
+function answerGramQ(cardI, qI, btn, ans, correct, exp){
+  const block=document.getElementById('gq_'+cardI+'_'+qI);
+  block.querySelectorAll('.gq-btn').forEach(b=>b.disabled=true);
+  const isOk = ans===correct;
+  btn.style.cssText+= isOk
+    ? ';background:var(--green);color:#fff;border-color:var(--green)'
+    : ';background:var(--red);color:#fff;border-color:var(--red)';
+  if(!isOk){
+    block.querySelectorAll('.gq-btn').forEach(b=>{
+      if(b.textContent.trim()===correct){
+        b.style.cssText+=';background:var(--green);color:#fff;border-color:var(--green)';
+      }
+    });
+  }
+  const res=document.getElementById('gqRes_'+cardI+'_'+qI);
+  res.style.display='block';
+  res.innerHTML = isOk
+    ? '<span style="color:var(--green)">✓ Správne! '+exp+'</span>'
+    : '<span style="color:var(--red)">✗ Nesprávne. '+exp+'</span>';
+  if(isOk) addXP(1);
+}
+</script>
+<script>
+// ============================================================
+// SITUÁCIE
+// ============================================================
+const DIALOGS = [
+  {
+    title:"Predstavenie",
+    icon:"👋",
+    lines:[
+      {speaker:"A",de:"Hallo! Ich heiße Pavol. Wie heißen Sie?",sk:"Ahoj! Volám sa Pavol. Ako sa voláte?"},
+      {speaker:"B",de:"Guten Tag! Mein Name ist Anna Müller.",sk:"Dobrý deň! Moje meno je Anna Müller."},
+      {speaker:"A",de:"Woher kommen Sie?",sk:"Odkiaľ pochádzate?"},
+      {speaker:"B",de:"Ich komme aus Deutschland. Und Sie?",sk:"Pochádzam z Nemecka. A vy?"},
+      {speaker:"A",de:"Ich komme aus der Slowakei, aus Bratislava.",sk:"Pochádzam zo Slovenska, z Bratislavy."},
+      {speaker:"B",de:"Sprechen Sie gut Deutsch?",sk:"Hovoríte dobre po nemecky?"},
+      {speaker:"A",de:"Ich lerne noch. Aber ich übe jeden Tag!",sk:"Ešte sa učím. Ale cvičím každý deň!"}
+    ],
+    vocab:["heißen – volať sa","kommen aus – pochádzať z","sprechen – hovoriť","lernen – učiť sa"]
+  },
+  {
+    title:"V reštaurácii",
+    icon:"🍽️",
+    lines:[
+      {speaker:"Čašník",de:"Guten Abend! Was möchten Sie bestellen?",sk:"Dobrý večer! Čo si želáte objednať?"},
+      {speaker:"Pavol",de:"Guten Abend! Ich möchte die Suppe und ein Schnitzel, bitte.",sk:"Dobrý večer! Chcel by som polievku a rezňa, prosím."},
+      {speaker:"Čašník",de:"Und was trinken Sie?",sk:"A čo budete piť?"},
+      {speaker:"Pavol",de:"Ein Bier, bitte. Und Wasser auch.",sk:"Jedno pivo, prosím. A aj vodu."},
+      {speaker:"Čašník",de:"Sehr gut. Einen Moment, bitte.",sk:"Veľmi dobre. Chvíľku, prosím."},
+      {speaker:"Pavol",de:"Entschuldigung! Die Rechnung, bitte.",sk:"Prepáčte! Účet, prosím."},
+      {speaker:"Čašník",de:"Das macht 18 Euro, bitte.",sk:"To je 18 eur, prosím."}
+    ],
+    vocab:["bestellen – objednať","möchten – chcieť","die Rechnung – účet","das Schnitzel – rezeň"]
+  },
+  {
+    title:"Nakupovanie",
+    icon:"🛍️",
+    lines:[
+      {speaker:"Predavač",de:"Guten Tag! Kann ich Ihnen helfen?",sk:"Dobrý deň! Môžem vám pomôcť?"},
+      {speaker:"Pavol",de:"Ja, bitte. Ich suche eine Jacke.",sk:"Áno, prosím. Hľadám bundu."},
+      {speaker:"Predavač",de:"Welche Größe haben Sie?",sk:"Akú veľkosť máte?"},
+      {speaker:"Pavol",de:"Größe L, bitte.",sk:"Veľkosť L, prosím."},
+      {speaker:"Predavač",de:"Hier ist eine schöne Jacke. Die kostet 45 Euro.",sk:"Tu je pekná bunda. Stojí 45 eur."},
+      {speaker:"Pavol",de:"Haben Sie etwas Billigeres?",sk:"Máte niečo lacnejšie?"},
+      {speaker:"Predavač",de:"Ja, diese hier kostet nur 29 Euro.",sk:"Áno, táto tu stojí len 29 eur."},
+      {speaker:"Pavol",de:"Gut! Ich nehme sie.",sk:"Dobre! Beriem ju."}
+    ],
+    vocab:["suchen – hľadať","kosten – stáť (cenu)","die Größe – veľkosť","nehmen – vziať/zobrať"]
+  },
+  {
+    title:"Na stanici",
+    icon:"🚂",
+    lines:[
+      {speaker:"Pavol",de:"Entschuldigung! Wann fährt der nächste Zug nach Wien?",sk:"Prepáčte! Kedy ide najbližší vlak do Viedne?"},
+      {speaker:"Úradník",de:"Der nächste Zug fährt um 14:30 Uhr.",sk:"Najbližší vlak ide o 14:30."},
+      {speaker:"Pavol",de:"Von welchem Gleis?",sk:"Z ktorého nástupišťa?"},
+      {speaker:"Úradník",de:"Von Gleis 3.",sk:"Z nástupišťa 3."},
+      {speaker:"Pavol",de:"Eine Fahrkarte nach Wien, bitte.",sk:"Jeden lístok do Viedne, prosím."},
+      {speaker:"Úradník",de:"Einfach oder hin und zurück?",sk:"Jednosmerný alebo tam a späť?"},
+      {speaker:"Pavol",de:"Einfach, bitte. Was kostet das?",sk:"Jednosmerný, prosím. Koľko to stojí?"},
+      {speaker:"Úradník",de:"Das kostet 22 Euro.",sk:"To stojí 22 eur."}
+    ],
+    vocab:["die Fahrkarte – lístok","das Gleis – nástupište","abfahren – odchádzať","einfach – jednosmerný"]
+  },
+  {
+    title:"U lekára",
+    icon:"🏥",
+    lines:[
+      {speaker:"Lekár",de:"Guten Tag! Was fehlt Ihnen?",sk:"Dobrý deň! Čo vás trápi?"},
+      {speaker:"Pavol",de:"Ich habe Kopfschmerzen und Fieber.",sk:"Mám bolesť hlavy a horúčku."},
+      {speaker:"Lekár",de:"Seit wann haben Sie diese Beschwerden?",sk:"Od kedy máte tieto ťažkosti?"},
+      {speaker:"Pavol",de:"Seit zwei Tagen.",sk:"Od dvoch dní."},
+      {speaker:"Lekár",de:"Öffnen Sie bitte den Mund.",sk:"Otvorte prosím ústa."},
+      {speaker:"Lekár",de:"Sie haben eine Erkältung. Ich schreibe Ihnen ein Rezept.",sk:"Máte nádchu. Napíšem vám recept."},
+      {speaker:"Pavol",de:"Danke. Muss ich im Bett bleiben?",sk:"Ďakujem. Musím zostať v posteli?"},
+      {speaker:"Lekár",de:"Ja, bleiben Sie zwei Tage zu Hause.",sk:"Áno, zostaňte dva dni doma."}
+    ],
+    vocab:["die Kopfschmerzen – bolesť hlavy","das Fieber – horúčka","das Rezept – recept","die Erkältung – nádcha/prechladnutie"]
+  },
+  {
+    title:"Opýtať sa na cestu",
+    icon:"🗺️",
+    lines:[
+      {speaker:"Pavol",de:"Entschuldigung! Wie komme ich zum Bahnhof?",sk:"Prepáčte! Ako sa dostanem na stanicu?"},
+      {speaker:"Okoloidúci",de:"Der Bahnhof? Gehen Sie geradeaus.",sk:"Stanica? Choďte rovno."},
+      {speaker:"Okoloidúci",de:"Dann biegen Sie links ab.",sk:"Potom odbočte vľavo."},
+      {speaker:"Pavol",de:"Ist es weit?",sk:"Je to ďaleko?"},
+      {speaker:"Okoloidúci",de:"Nein, nur fünf Minuten zu Fuß.",sk:"Nie, len päť minút pešo."},
+      {speaker:"Pavol",de:"Vielen Dank!",sk:"Veľmi ďakujem!"},
+      {speaker:"Okoloidúci",de:"Bitte sehr! Gute Reise!",sk:"Prosím! Dobrú cestu!"}
+    ],
+    vocab:["geradeaus – rovno","links – vľavo","rechts – vpravo","zu Fuß – pešo","weit – ďaleko"]
+  }
+];
+
+let situacieTab = 0;
+
+function renderSituacie(){
+  const tabs=document.getElementById('situacieTabs');
+  const content=document.getElementById('situacieContent');
+  if(tabs.children.length>0) return;
+  DIALOGS.forEach((d,i)=>{
+    const tab=document.createElement('div');
+    tab.className='tab'+(i===0?' active':'');
+    tab.innerHTML=d.icon+' '+d.title;
+    tab.onclick=()=>showSituacia(i,tab);
+    tabs.appendChild(tab);
+  });
+  showSituacia(0, tabs.children[0]);
+}
+
+function showSituacia(i, el){
+  situacieTab=i;
+  document.querySelectorAll('#situacieTabs .tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const d=DIALOGS[i];
+  const content=document.getElementById('situacieContent');
+  content.innerHTML=`
+    <div class="card">
+      <h3 style="margin-bottom:16px">${d.icon} ${d.title}</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0" class="dialog-wrap">
+        <div>
+          <div style="font-weight:700;color:var(--accent);margin-bottom:8px;font-size:.85rem">🇩🇪 NEMČINA</div>
+          ${d.lines.map(l=>`
+            <div class="dialog-line dialog-de">
+              <div class="dialog-speaker">${l.speaker}</div>
+              ${l.de}
+            </div>
+          `).join('')}
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--text-muted);margin-bottom:8px;font-size:.85rem">🇸🇰 SLOVENČINA</div>
+          ${d.lines.map(l=>`
+            <div class="dialog-line dialog-sk">
+              <div class="dialog-speaker">${l.speaker}</div>
+              ${l.sk}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <div style="margin-top:16px">
+        <div style="font-weight:700;margin-bottom:8px">📌 Kľúčové slovíčka</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          ${d.vocab.map(v=>`<span style="padding:5px 12px;background:#f0f0ff;border-radius:20px;font-size:.85rem;font-weight:600">${v}</span>`).join('')}
+        </div>
+      </div>
+      <div style="margin-top:16px">
+        <button class="btn btn-primary btn-sm" onclick="startSituaciaQuiz(${i})">🎯 Precvičiť dialóg</button>
+        <button class="btn btn-outline btn-sm" style="margin-left:10px">🔊 Prehrať (čoskoro)</button>
+      </div>
+      <div id="situaciaQuiz${i}" style="margin-top:16px"></div>
+    </div>
+  `;
+}
+
+function startSituaciaQuiz(i){
+  const d=DIALOGS[i];
+  const lines=d.lines.filter(l=>l.de.length>10);
+  const container=document.getElementById('situaciaQuiz'+i);
+  let html='<div style="font-weight:700;margin-bottom:12px">Napíšte nemecký preklad:</div>';
+  lines.slice(0,3).forEach((l,j)=>{
+    html+=`<div style="margin-bottom:12px">
+      <div style="color:var(--text-muted);font-size:.9rem;margin-bottom:6px">${l.sk}</div>
+      <textarea class="writing-input" id="situQ${i}_${j}" rows="2" style="resize:vertical"></textarea>
+      <button class="btn btn-sm btn-primary" style="margin-top:6px" onclick="checkSituQ(${i},${j},'${l.de.replace(/'/g,"\\'")}')">Skontrolovať</button>
+      <div id="situQRes${i}_${j}" style="margin-top:4px;font-size:.85rem"></div>
+    </div>`;
+  });
+  container.innerHTML=html;
+}
+
+function checkSituQ(i,j,correct){
+  const val=document.getElementById('situQ'+i+'_'+j).value.trim();
+  const res=document.getElementById('situQRes'+i+'_'+j);
+  if(val.toLowerCase()===correct.toLowerCase()){
+    res.innerHTML='<span style="color:var(--green)">✓ Správne!</span>';
+    addXP(1);
+  } else {
+    res.innerHTML=`<span style="color:var(--red)">✗ Správne: <em>${correct}</em></span>`;
+  }
+}
+
+// ============================================================
+// POKROK
+// ============================================================
+function renderPokrok(){
+  updateXPDisplay();
+  document.getElementById('statStreak').textContent=state.streak;
+  const learnedWords=Object.keys(state.wordProgress).filter(k=>state.wordProgress[k]>0).length;
+  document.getElementById('statWords').textContent=learnedWords;
+  const acc=state.quizStats.total>0?Math.round(state.quizStats.correct/state.quizStats.total*100):0;
+  document.getElementById('statQuizAcc').textContent=acc+'%';
+  document.getElementById('statCards').textContent=state.cardsReviewed;
+
+  // Category mastery
+  const catDiv=document.getElementById('catMastery');
+  catDiv.innerHTML='';
+  const cats={
+    pozdravy:'Pozdravy',cisla:'Čísla',rodina:'Rodina',farby:'Farby',
+    domov:'Domov',jedlo:'Jedlo',oblecenie:'Oblečenie',povolania:'Povolania',
+    doprava:'Doprava',cas:'Čas',adjektiva:'Prídavné mená',slovesa:'Slovesá'
+  };
+  Object.entries(cats).forEach(([key,label])=>{
+    const total=VOCAB.filter(w=>w.cat===key).length;
+    const learned=VOCAB.filter((w,i)=>w.cat===key&&state.wordProgress[i]>0).length;
+    const pct=total>0?Math.round(learned/total*100):0;
+    catDiv.innerHTML+=`
+      <div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;font-size:.85rem;font-weight:700;margin-bottom:4px">
+          <span>${label}</span><span>${learned}/${total}</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      </div>
+    `;
+  });
+
+  // Weekly chart
+  const chart=document.getElementById('weeklyChart');
+  chart.innerHTML='';
+  const days=['Po','Ut','St','Šv','Pi','So','Ne'];
+  const maxXP=Math.max(...state.weeklyXP,1);
+  state.weeklyXP.forEach((xp,i)=>{
+    const h=Math.max(4,Math.round(xp/maxXP*72));
+    chart.innerHTML+=`
+      <div class="bar-wrap">
+        <div class="bar" style="height:${h}px" title="${xp} XP"></div>
+        <div class="bar-label">${days[i]}</div>
+      </div>
+    `;
+  });
+
+  renderAchievements();
+}
+
+function renderAchievements(){
+  const el=document.getElementById('achievementsList');
+  if(!el) return;
+  el.innerHTML='';
+  ACHIEVEMENTS_DEF.forEach(a=>{
+    const earned=state.achievements[a.id];
+    el.innerHTML+=`<div class="ach-badge${earned?' earned':''}">
+      <span>${a.label}</span>
+      ${earned?'':'<span style="font-size:.75rem;color:var(--text-muted)">(nezískaný)</span>'}
+    </div>`;
+  });
+}
+
+// ============================================================
+// WELCOME MODAL
+// ============================================================
+function closeWelcome(){
+  document.getElementById('welcomeModal').classList.remove('open');
+  localStorage.setItem('deutsch_welcomed','1');
+}
+
+// ============================================================
+// KEYBOARD SHORTCUTS
+// ============================================================
+document.addEventListener('keydown',e=>{
+  const sec=document.querySelector('.section.active').id;
+  if(sec==='sec-karticky'){
+    if(e.code==='Space'){e.preventDefault();flipCard();}
+    if(e.code==='ArrowRight'){fcAnswer(true);}
+    if(e.code==='ArrowLeft'){fcAnswer(false);}
+  }
+  if(sec==='sec-kviz'){
+    if(e.code==='Enter'){
+      const nb=document.getElementById('quizNextBtn');
+      if(nb && nb.style.display!=='none') nextQuizQ();
+    }
+  }
+});
+
+// ============================================================
+// INIT
+// ============================================================
+function init(){
+  loadState();
+  checkDailyReset();
+  // Welcome modal
+  if(!localStorage.getItem('deutsch_welcomed')){
+    document.getElementById('welcomeModal').classList.add('open');
+  }
+  // Render initial section
+  renderMojDen();
+  renderVocab();
+  renderPreloz();
+  renderDoplnte();
+  renderPoskladajte();
+  updateXPDisplay();
+  // Set flashcard mode
+  setFCMode('A');
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
 </body>
 </html>

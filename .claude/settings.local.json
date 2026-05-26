@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "PowerShell(Write-Host \\(Get-Location\\).Path; Write-Host $env:USERPROFILE)",
-      "PowerShell(Get-ChildItem \"$env:USERPROFILE\\\\Documents\\\\kody\\\\nemcina\\\\Nemcina\")"
-    ]
-  }
-}
